@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mohmmad Shaikh — Cybersecurity & IT</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #f7f6f2;
+  --black: #0d0d0d;
+  --white: #ffffff;
+  --accent: #0047ff;
+  --accent2: #00c2a8;
+  --gray: #6e6e6e;
+  --light-gray: #e8e6e0;
+  --card: #ffffff;
+  --border: #e2dfd8;
+  --urgent: #ff3b3b;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--black);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 5rem;
+  background: rgba(247,246,242,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.05rem;
+  letter-spacing: -0.02em; color: var(--black); text-decoration: none;
+}
+.nav-links { display: flex; gap: 2.2rem; list-style: none; align-items: center; }
+.nav-links a {
+  font-size: 0.85rem; font-weight: 500; color: var(--gray);
+  text-decoration: none; letter-spacing: 0.015em; transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--black); }
+.nav-social { display: flex; gap: 0.75rem; align-items: center; }
+.nav-social a {
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 8px;
+  background: var(--light-gray); transition: all 0.2s; color: var(--black);
+}
+.nav-social a:hover { background: var(--accent); color: white; transform: translateY(-2px); }
+.nav-social svg { width: 16px; height: 16px; fill: currentColor; }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center; gap: 4rem;
+  padding: 8rem 5rem 5rem;
+  max-width: 1200px; margin: 0 auto;
+}
+.urgency-banner {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  background: #fff0f0; border: 1.5px solid #ffcaca;
+  padding: 0.4rem 1rem; border-radius: 100px;
+  margin-bottom: 1.5rem;
+  opacity: 0; animation: fadeUp 0.5s 0.1s forwards;
+}
+.urgency-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--urgent);
+  animation: urgentPulse 1.5s infinite;
+}
+@keyframes urgentPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(255,59,59,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(255,59,59,0); }
+}
+.urgency-banner span {
+  font-size: 0.75rem; font-weight: 700; color: var(--urgent);
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(3rem, 5.5vw, 4.8rem);
+  font-weight: 800; line-height: 1.03; letter-spacing: -0.035em;
+  opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+}
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero-sub {
+  margin-top: 1.5rem; font-size: 1.05rem; font-weight: 300;
+  color: var(--gray); max-width: 480px; line-height: 1.75;
+  opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
+}
+.hero-badges {
+  display: flex; gap: 0.6rem; flex-wrap: wrap;
+  margin-top: 1.5rem;
+  opacity: 0; animation: fadeUp 0.7s 0.45s forwards;
+}
+.badge {
+  font-size: 0.78rem; font-weight: 500; padding: 0.3rem 0.8rem;
+  border-radius: 100px; border: 1px solid var(--border);
+  color: var(--gray); background: white;
+}
+.badge.accent { background: var(--accent); color: white; border-color: var(--accent); }
+.badge.teal { background: var(--accent2); color: white; border-color: var(--accent2); }
+.hero-cta {
+  display: flex; gap: 0.9rem; flex-wrap: wrap;
+  margin-top: 2.2rem;
+  opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.78rem 1.6rem; border-radius: 10px;
+  font-size: 0.9rem; font-weight: 500;
+  text-decoration: none; transition: all 0.2s; cursor: pointer; border: none;
+  font-family: 'DM Sans', sans-serif;
+}
+.btn-primary { background: var(--black); color: white; }
+.btn-primary:hover { background: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,71,255,0.25); }
+.btn-outline { background: transparent; color: var(--black); border: 1.5px solid var(--border); }
+.btn-outline:hover { border-color: var(--black); transform: translateY(-2px); }
+
+/* TERMINAL */
+.hero-visual { opacity: 0; animation: fadeIn 1s 0.8s forwards; }
+.terminal {
+  background: #111; border-radius: 16px; overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.2);
+}
+.terminal-bar {
+  background: #1e1e1e; padding: 0.8rem 1rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.t-dot { width: 12px; height: 12px; border-radius: 50%; }
+.t-dot.r { background: #ff5f57; }
+.t-dot.y { background: #febc2e; }
+.t-dot.g { background: #28c840; }
+.terminal-title { font-size: 0.72rem; color: #555; margin-left: auto; font-family: monospace; }
+.terminal-body { padding: 1.5rem; min-height: 270px; max-height: 270px; overflow: hidden; }
+.t-line {
+  font-family: 'Courier New', monospace; font-size: 0.8rem;
+  color: #888; margin-bottom: 0.3rem; opacity: 0;
+  animation: termLine 0.01s forwards;
+}
+.t-line.green { color: #28c840; }
+.t-line.blue { color: #5bc8fb; }
+.t-line.yellow { color: #febc2e; }
+.t-line.white { color: #ddd; }
+.t-cursor {
+  display: inline-block; width: 8px; height: 13px;
+  background: var(--accent); animation: blink 1s infinite; vertical-align: middle;
+}
+@keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+@keyframes termLine { to { opacity: 1; } }
+
+/* SECTIONS */
+.section-wrap { max-width: 1100px; margin: 0 auto; padding: 5.5rem 5rem; }
+.divider { width: 100%; height: 1px; background: var(--border); max-width: 1100px; margin: 0 auto; }
+.section-label {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem;
+}
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+  font-weight: 700; letter-spacing: -0.025em; line-height: 1.15;
+  margin-bottom: 0.75rem;
+}
+.section-desc { color: var(--gray); font-size: 1rem; max-width: 540px; margin-bottom: 3rem; }
+
+/* ABOUT */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+.about-text p { font-size: 0.97rem; color: #333; line-height: 1.8; margin-bottom: 1.2rem; }
+.about-text p strong { color: var(--black); font-weight: 600; }
+.about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+.stat-box {
+  background: white; border: 1px solid var(--border); border-radius: 14px;
+  padding: 1.25rem; text-align: center; transition: all 0.2s;
+}
+.stat-box:hover { border-color: var(--accent); transform: translateY(-3px); }
+.stat-num {
+  font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800;
+  color: var(--accent); line-height: 1;
+}
+.stat-label { font-size: 0.78rem; color: var(--gray); margin-top: 0.3rem; font-weight: 500; }
+.network-canvas-wrap {
+  position: relative; border-radius: 16px; overflow: hidden;
+  background: #0d0d0d; aspect-ratio: 4/3;
+}
+#networkCanvas { width: 100%; height: 100%; display: block; }
+.canvas-label {
+  position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%);
+  font-size: 0.68rem; color: #444; letter-spacing: 0.08em; text-transform: uppercase;
+  font-family: monospace; white-space: nowrap;
+}
+
+/* SKILLS */
+.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+.skill-card {
+  background: white; border: 1px solid var(--border); border-radius: 14px;
+  padding: 1.4rem 1.5rem; transition: all 0.25s; position: relative; overflow: hidden;
+}
+.skill-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(0,71,255,0.05) 0%, transparent 60%);
+  opacity: 0; transition: opacity 0.3s;
+}
+.skill-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,71,255,0.1); }
+.skill-card:hover::before { opacity: 1; }
+.skill-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+.skill-card-label {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--gray); margin-bottom: 0.4rem;
+}
+.skill-card-title { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; }
+.skill-tag {
+  display: inline-block; font-size: 0.73rem; font-weight: 500;
+  background: var(--light-gray); border-radius: 6px;
+  padding: 0.15rem 0.55rem; margin: 0.1rem 0.1rem 0 0; color: #444;
+}
+
+/* EXPERIENCE */
+.exp-timeline { position: relative; }
+.exp-timeline::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 2px; background: linear-gradient(to bottom, var(--accent), transparent);
+}
+.exp-item {
+  display: grid; grid-template-columns: 190px 1fr; gap: 2.5rem;
+  padding: 2.5rem 0 2.5rem 2rem; border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.exp-item::before {
+  content: ''; position: absolute; left: -5px; top: 2.8rem;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--bg);
+}
+.exp-date { font-size: 0.78rem; color: var(--gray); font-weight: 500; margin-bottom: 0.4rem; }
+.exp-org { font-size: 0.85rem; font-weight: 700; color: var(--accent); }
+.exp-location { font-size: 0.75rem; color: var(--gray); margin-top: 0.2rem; }
+.exp-title {
+  font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700;
+  letter-spacing: -0.015em; margin-bottom: 1rem;
+}
+.exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+.exp-bullets li {
+  font-size: 0.9rem; color: #333; line-height: 1.65;
+  padding-left: 1.3rem; position: relative;
+}
+.exp-bullets li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); }
+.exp-highlight {
+  background: rgba(0,71,255,0.09); color: var(--accent);
+  font-weight: 600; font-size: 0.85rem;
+  padding: 0.1rem 0.45rem; border-radius: 5px;
+}
+
+/* PROJECT */
+.project-card {
+  background: white; border: 1px solid var(--border); border-radius: 18px;
+  padding: 2rem 2.5rem; display: grid; grid-template-columns: 1fr auto;
+  gap: 2rem; align-items: start; transition: all 0.25s;
+}
+.project-card:hover { border-color: var(--accent2); box-shadow: 0 16px 50px rgba(0,194,168,0.1); transform: translateY(-4px); }
+.project-tag {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: rgba(0,194,168,0.1); color: var(--accent2);
+  font-size: 0.74rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 100px;
+  margin-bottom: 1rem; border: 1px solid rgba(0,194,168,0.25);
+}
+.project-title {
+  font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700;
+  letter-spacing: -0.02em; margin-bottom: 0.75rem;
+}
+.project-desc { font-size: 0.9rem; color: #444; line-height: 1.75; }
+.project-tech { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.25rem; }
+.project-visual {
+  width: 110px; flex-shrink: 0;
+  display: flex; flex-direction: column; gap: 0.5rem; align-items: center; justify-content: center;
+  padding: 1.25rem; background: #0d0d0d; border-radius: 12px;
+}
+.net-icon { font-size: 1.8rem; text-align: center; }
+.net-line { width: 2px; height: 18px; background: linear-gradient(to bottom, var(--accent2), transparent); margin: 0 auto; }
+
+/* LEADERSHIP */
+.lead-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+.lead-card {
+  background: white; border: 1px solid var(--border); border-radius: 14px;
+  padding: 1.75rem; transition: all 0.2s;
+}
+.lead-card:hover { box-shadow: 0 10px 35px rgba(0,0,0,0.07); transform: translateY(-4px); }
+.lead-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+.lead-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+.lead-org { font-size: 0.78rem; color: var(--accent); font-weight: 600; }
+.lead-date { font-size: 0.73rem; color: var(--gray); margin-bottom: 0.75rem; margin-top: 0.1rem; }
+.lead-desc { font-size: 0.875rem; color: var(--gray); line-height: 1.7; }
+
+/* CONTACT */
+.contact-section {
+  background: var(--black); color: white;
+  border-radius: 24px; padding: 5rem 4rem;
+  text-align: center; position: relative; overflow: hidden;
+  max-width: 1000px; margin: 0 auto 6rem;
+}
+.contact-section::before {
+  content: ''; position: absolute;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,71,255,0.18), transparent 70%);
+  top: -250px; left: 50%; transform: translateX(-50%);
+  pointer-events: none;
+}
+.contact-available {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: rgba(0,71,255,0.2); border: 1px solid rgba(0,71,255,0.4);
+  color: #6aabff; font-size: 0.78rem; font-weight: 700;
+  padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 2rem;
+  letter-spacing: 0.05em; text-transform: uppercase;
+}
+.contact-available::before {
+  content: ''; width: 7px; height: 7px; border-radius: 50%;
+  background: #6aabff; animation: urgentPulse 2s infinite;
+}
+.contact-section .section-title { color: white; margin-bottom: 0.75rem; }
+.contact-sub { color: #888; font-size: 1rem; margin-bottom: 0.5rem; }
+.contact-relocate { color: #6aabff; font-size: 0.9rem; font-weight: 500; margin-bottom: 2.5rem; }
+.contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem; }
+.contact-section .btn-primary { background: var(--accent); }
+.contact-section .btn-outline { border-color: #333; color: white; }
+.contact-section .btn-outline:hover { border-color: white; }
+.social-row { display: flex; gap: 1.2rem; justify-content: center; }
+.social-icon-link {
+  display: flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px; border-radius: 12px;
+  background: rgba(255,255,255,0.07); color: white;
+  transition: all 0.2s; border: 1px solid rgba(255,255,255,0.1);
+}
+.social-icon-link:hover { background: var(--accent); transform: translateY(-3px); border-color: var(--accent); }
+.social-icon-link svg { width: 20px; height: 20px; fill: currentColor; }
+
+footer {
+  text-align: center; padding: 2rem;
+  font-size: 0.8rem; color: var(--gray);
+  border-top: 1px solid var(--border);
+}
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s, transform 0.65s; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
+  .hero-visual { display: none; }
+  .section-wrap { padding: 4rem 1.5rem; }
+  .about-grid, .lead-grid { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .exp-item { grid-template-columns: 1fr; gap: 0.5rem; padding-left: 0; }
+  .exp-timeline::before, .exp-item::before { display: none; }
+  .project-card { grid-template-columns: 1fr; }
+  .project-visual { display: none; }
+  .contact-section { padding: 3rem 1.5rem; border-radius: 14px; margin: 0 1rem 4rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">Mohmmad Shaikh</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#leadership">Leadership</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-social">
+    <a href="https://github.com/ccmohmmadshaikh" target="_blank" title="GitHub">
+      <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/mohmmadshaikh" target="_blank" title="LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="urgency-banner">
+      <div class="urgency-dot"></div>
+      <span>Available Now · Open to Relocation Anywhere in the US</span>
+    </div>
+    <h1>Securing<br/>Networks.<br/><em>Protecting</em><br/>People.</h1>
+    <p class="hero-sub">
+      Final-semester IT & Cybersecurity student at Seminole State College. Ready to contribute from day one — technical skill, strong communication, and a drive to build safer digital environments.
+    </p>
+    <div class="hero-badges">
+      <span class="badge accent">Cybersecurity</span>
+      <span class="badge teal">Networking</span>
+      <span class="badge">IT Support</span>
+      <span class="badge">Available Immediately</span>
+    </div>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#contact">Let's Talk →</a>
+      <a class="btn btn-outline" href="#experience">View My Work</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div>
+        <span class="terminal-title">mohmmad@portfolio ~ </span>
+      </div>
+      <div class="terminal-body" id="termBody"></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about" class="section-wrap">
+  <div class="section-label reveal">About Me</div>
+  <div class="section-title reveal">More Than a Resume</div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p class="reveal">I'm a <strong>final-semester Information Technology student</strong> specializing in cybersecurity and networking. I'm not waiting to graduate to start — I'm ready to contribute <strong>right now</strong>.</p>
+      <p class="reveal">What sets me apart is a combination most candidates don't have: <strong>years of high-performance client-facing work</strong> at one of the largest law firms in the country, paired with deep technical knowledge of networking and security. I know how to speak to people, manage complexity under pressure, and move fast — all skills that translate directly into IT and security roles.</p>
+      <p class="reveal">At Morgan & Morgan, I managed <strong>75+ active client cases</strong> simultaneously while maintaining a 95–100% conversion rate. That's not just a people skill — it's data management, process discipline, and communication under pressure.</p>
+      <p class="reveal">I'm also fluent in <strong>English, Urdu, and Hindi</strong> — giving me the ability to communicate with a much wider range of clients and teams, a real edge in diverse tech environments.</p>
+      <p class="reveal">I'm actively building toward a cybersecurity career, and I'm <strong>open to relocating anywhere in the United States</strong> for the right opportunity. If you need someone who shows up ready — that's me.</p>
+      <div class="about-stats">
+        <div class="stat-box reveal"><div class="stat-num">100%</div><div class="stat-label">Conversion Rate — Morgan & Morgan</div></div>
+        <div class="stat-box reveal"><div class="stat-num">75+</div><div class="stat-label">Clients Managed at Once</div></div>
+        <div class="stat-box reveal"><div class="stat-num">300+</div><div class="stat-label">People Reached as Youth President</div></div>
+        <div class="stat-box reveal"><div class="stat-num">3</div><div class="stat-label">Languages: English · Urdu · Hindi</div></div>
+      </div>
+    </div>
+    <div class="network-canvas-wrap reveal">
+      <canvas id="networkCanvas"></canvas>
+      <div class="canvas-label">// live network simulation</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills" class="section-wrap">
+  <div class="section-label reveal">Technical Proficiency</div>
+  <div class="section-title reveal">Skills & Tools</div>
+  <p class="section-desc reveal">From securing networks to connecting with clients — here's what I bring.</p>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-icon">🔐</div>
+      <div class="skill-card-label">Core Specialty</div>
+      <div class="skill-card-title">Cybersecurity</div>
+      <div><span class="skill-tag">IDS/IPS</span><span class="skill-tag">Firewalls</span><span class="skill-tag">VPN</span><span class="skill-tag">Access Control</span><span class="skill-tag">Network Defense</span><span class="skill-tag">Threat Analysis</span></div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🌐</div>
+      <div class="skill-card-label">Infrastructure</div>
+      <div class="skill-card-title">Networking</div>
+      <div><span class="skill-tag">TCP/IP</span><span class="skill-tag">DHCP</span><span class="skill-tag">LAN/WAN</span><span class="skill-tag">Routing</span><span class="skill-tag">Wireshark</span><span class="skill-tag">Packet Tracer</span></div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">💻</div>
+      <div class="skill-card-label">Programming</div>
+      <div class="skill-card-title">Languages</div>
+      <div><span class="skill-tag">Java</span><span class="skill-tag">Python</span><span class="skill-tag">JavaScript</span><span class="skill-tag">HTML</span></div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🛠️</div>
+      <div class="skill-card-label">Developer Tools</div>
+      <div class="skill-card-title">Environments</div>
+      <div><span class="skill-tag">Visual Studio</span><span class="skill-tag">Eclipse</span><span class="skill-tag">MySQL</span><span class="skill-tag">Wireshark</span><span class="skill-tag">Cisco Packet Tracer</span></div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🤝</div>
+      <div class="skill-card-label">Professional Edge</div>
+      <div class="skill-card-title">People & Process</div>
+      <div><span class="skill-tag">Client Relations</span><span class="skill-tag">Public Speaking</span><span class="skill-tag">Team Leadership</span><span class="skill-tag">Cross-dept Coordination</span><span class="skill-tag">Data Analysis</span></div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🗣️</div>
+      <div class="skill-card-label">Languages Spoken</div>
+      <div class="skill-card-title">Communication</div>
+      <div><span class="skill-tag">English</span><span class="skill-tag">Urdu</span><span class="skill-tag">Hindi</span></div>
+      <p style="font-size:0.8rem;color:var(--gray);margin-top:0.75rem;line-height:1.6;">Fluency in 3 languages enables communication across a wider range of clients, teams, and environments.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="section-wrap">
+  <div class="section-label reveal">Work History</div>
+  <div class="section-title reveal">Experience</div>
+  <p class="section-desc reveal">Three years at one of America's largest law firms — discipline, data-handling, and communication under pressure.</p>
+  <div class="exp-timeline">
+    <div class="exp-item reveal">
+      <div>
+        <div class="exp-date">Feb 2025 — Present</div>
+        <div class="exp-org">Morgan & Morgan</div>
+        <div class="exp-location">Orlando, FL</div>
+      </div>
+      <div>
+        <div class="exp-title">Client Relations Specialist</div>
+        <ul class="exp-bullets">
+          <li>Achieved a <span class="exp-highlight">100% conversion rate</span> through trust-based client relationship management and strategic follow-up.</li>
+          <li>Streamlined case management workflows, reducing resolution time and increasing satisfaction across a large client base.</li>
+          <li>Analyzed client data and feedback to develop tailored engagement strategies — a direct parallel to threat profiling and adaptive security responses.</li>
+          <li>Coordinated across departments to ensure fast, accurate resolution of complex situations, demonstrating cross-functional communication critical in IT environments.</li>
+          <li>Provided personalized guidance to clients in high-stress situations, building confidence and long-term trust.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-item reveal">
+      <div>
+        <div class="exp-date">Mar 2023 — Jan 2025</div>
+        <div class="exp-org">Morgan & Morgan</div>
+        <div class="exp-location">Orlando, FL</div>
+      </div>
+      <div>
+        <div class="exp-title">Case Consultant</div>
+        <ul class="exp-bullets">
+          <li>Managed <span class="exp-highlight">75+ active clients</span> simultaneously, maintaining a 95% conversion rate with organized, structured case tracking.</li>
+          <li>Resolved complex client concerns efficiently under tight timelines — problem-solving under pressure that mirrors IT support and incident response workflows.</li>
+          <li>Collaborated with team members to share insights, develop repeatable processes, and support overall performance.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects" class="section-wrap">
+  <div class="section-label reveal">Technical Work</div>
+  <div class="section-title reveal">Projects</div>
+  <p class="section-desc reveal">Hands-on work that goes beyond the classroom.</p>
+  <div class="project-card reveal">
+    <div>
+      <div class="project-tag">🔧 Cisco Packet Tracer · Networking & Security</div>
+      <div class="project-title">Home Network Design & Security Implementation</div>
+      <p class="project-desc">
+        Designed and deployed a fully functional multi-device home network — supporting laptops, smartphones, and smart TVs — connected via cable internet with a wireless router distributing the connection. Configured a local area network (LAN) enabling cross-device file sharing. Implemented a layered security posture: strong Wi-Fi authentication protocols and custom firewall rule configurations to detect and block unauthorized access attempts. Demonstrated real-world application of networking fundamentals and practical cybersecurity principles.
+      </p>
+      <div class="project-tech">
+        <span class="skill-tag">Cisco Packet Tracer</span>
+        <span class="skill-tag">LAN Configuration</span>
+        <span class="skill-tag">Firewall Rules</span>
+        <span class="skill-tag">Wi-Fi Security</span>
+        <span class="skill-tag">Network Topology</span>
+        <span class="skill-tag">Access Control</span>
+      </div>
+    </div>
+    <div class="project-visual">
+      <div class="net-icon">🖥️</div>
+      <div class="net-line"></div>
+      <div class="net-icon">📡</div>
+      <div class="net-line"></div>
+      <div class="net-icon">🔒</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- LEADERSHIP -->
+<section id="leadership" class="section-wrap">
+  <div class="section-label reveal">Community Impact</div>
+  <div class="section-title reveal">Leadership & Volunteering</div>
+  <p class="section-desc reveal">Leading teams and serving communities long before it was ever on a resume.</p>
+  <div class="lead-grid">
+    <div class="lead-card reveal">
+      <div class="lead-icon">🏛️</div>
+      <div class="lead-title">President</div>
+      <div class="lead-org">Young Muslims · Orlando, FL</div>
+      <div class="lead-date">Aug 2018 – May 2023</div>
+      <div class="lead-desc">Led large-scale public speaking events reaching 300+ participants across multiple regions. Mentored youth leaders in communication and outreach — building a culture of accountability, confidence, and growth.</div>
+    </div>
+    <div class="lead-card reveal">
+      <div class="lead-icon">🎠</div>
+      <div class="lead-title">Volunteer</div>
+      <div class="lead-org">Disney's Give Kids the World</div>
+      <div class="lead-date">Mar 2023 – Apr 2024</div>
+      <div class="lead-desc">Collaborated with cross-functional teams to execute recreational events for children facing serious illnesses — executing on a mission-driven environment that demanded both teamwork and empathy.</div>
+    </div>
+    <div class="lead-card reveal">
+      <div class="lead-icon">📦</div>
+      <div class="lead-title">Community Volunteer</div>
+      <div class="lead-org">Helping Hand · Orlando, FL</div>
+      <div class="lead-date">Jun 2017 – May 2020</div>
+      <div class="lead-desc">Packaged 2,000+ boxes of goods for underrepresented youth and low-income communities worldwide. Organized fundraising events contributing to global humanitarian relief efforts.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="margin-bottom: 5rem;"></div>
+
+<!-- CONTACT -->
+<div style="padding: 0 2rem;">
+  <div class="contact-section reveal" id="contact">
+    <div class="contact-available">Available Now — Open to Relocation Anywhere in the US</div>
+    <div class="section-title">Ready to Start.<br/>Let's Connect.</div>
+    <p class="contact-sub">Actively seeking a cybersecurity or IT internship — available to start immediately.</p>
+    <p class="contact-relocate">📍 Based in Sanford, FL · Willing to relocate anywhere in the United States</p>
+    <div class="contact-links">
+      <a class="btn btn-primary" href="mailto:ccmohmmadshaikh@gmail.com">ccmohmmadshaikh@gmail.com</a>
+      <a class="btn btn-outline" href="tel:4074024053">407.402.4053</a>
+    </div>
+    <div class="social-row">
+      <a class="social-icon-link" href="https://github.com/ccmohmmadshaikh" target="_blank" title="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+      <a class="social-icon-link" href="https://www.linkedin.com/in/mohmmadshaikh" target="_blank" title="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Mohmmad Shaikh · Built with purpose · Sanford, FL</p>
+</footer>
+
+<script>
+// TERMINAL
+const lines = [
+  { text: '$ whoami', cls: 'green', delay: 400 },
+  { text: 'mohmmad-shaikh  //  IT & Cybersecurity', cls: 'white', delay: 850 },
+  { text: '', cls: '', delay: 1100 },
+  { text: '$ scan --network home-lab', cls: 'green', delay: 1350 },
+  { text: 'Analyzing topology...', cls: 'blue', delay: 1800 },
+  { text: '[+] Firewall rules: CONFIGURED', cls: 'yellow', delay: 2200 },
+  { text: '[+] Unauthorized access: BLOCKED', cls: 'yellow', delay: 2650 },
+  { text: '[✓] LAN secured. All devices online.', cls: 'green', delay: 3100 },
+  { text: '', cls: '', delay: 3400 },
+  { text: '$ status --career', cls: 'green', delay: 3700 },
+  { text: 'Degree: B.S. Information Technology', cls: 'white', delay: 4100 },
+  { text: 'Focus: Cybersecurity + Networking', cls: 'blue', delay: 4450 },
+  { text: 'Status: AVAILABLE · Immediate start', cls: 'yellow', delay: 4850 },
+  { text: 'Relocation: OPEN · Anywhere in US', cls: 'white', delay: 5200 },
+];
+const termBody = document.getElementById('termBody');
+lines.forEach(({ text, cls, delay }) => {
+  setTimeout(() => {
+    const d = document.createElement('div');
+    d.className = `t-line ${cls}`;
+    d.textContent = text;
+    termBody.appendChild(d);
+  }, delay);
+});
+setTimeout(() => {
+  const d = document.createElement('div');
+  d.className = 't-line green';
+  d.innerHTML = '$ <span class="t-cursor"></span>';
+  termBody.appendChild(d);
+}, 5700);
+
+// NETWORK CANVAS
+const canvas = document.getElementById('networkCanvas');
+const ctx = canvas.getContext('2d');
+let nodes = [];
+function resizeCanvas() {
+  const w = canvas.parentElement;
+  canvas.width = w.offsetWidth;
+  canvas.height = w.offsetHeight;
+}
+function initNodes() {
+  nodes = Array.from({ length: 24 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random() - 0.5) * 0.45,
+    vy: (Math.random() - 0.5) * 0.45,
+    r: Math.random() * 2.5 + 1.5,
+    pulse: Math.random() * Math.PI * 2,
+  }));
+}
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  nodes.forEach(n => {
+    n.x += n.vx; n.y += n.vy; n.pulse += 0.035;
+    if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+    if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+  });
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 120) {
+        ctx.strokeStyle = `rgba(0,71,255,${(1 - dist/120) * 0.3})`;
+        ctx.lineWidth = 0.7;
+        ctx.beginPath();
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+  nodes.forEach(n => {
+    const g = Math.sin(n.pulse) * 0.3 + 0.7;
+    ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(0,194,168,${g})`; ctx.fill();
+    ctx.beginPath(); ctx.arc(n.x, n.y, n.r + 3.5, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(0,71,255,${g * 0.12})`; ctx.fill();
+  });
+  requestAnimationFrame(draw);
+}
+window.addEventListener('resize', () => { resizeCanvas(); initNodes(); });
+resizeCanvas(); initNodes(); draw();
+
+// SCROLL REVEAL
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+document.querySelectorAll('.skill-card').forEach((c, i) => c.style.transitionDelay = `${i * 0.07}s`);
+document.querySelectorAll('.lead-card').forEach((c, i) => c.style.transitionDelay = `${i * 0.1}s`);
+document.querySelectorAll('.stat-box').forEach((c, i) => c.style.transitionDelay = `${i * 0.09}s`);
+</script>
+</body>
+</html>
