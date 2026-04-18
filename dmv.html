@@ -1,0 +1,2067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro DMV — Your DC Metro Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --red: #E31837;
+  --blue: #009CDE;
+  --orange: #F7941D;
+  --green: #00A859;
+  --yellow: #FFD100;
+  --silver: #919D9D;
+  --night: #070B18;
+  --night2: #0D1426;
+  --night3: #111827;
+  --gold: #C9A84C;
+  --gold-light: #E8C84A;
+  --cream: #F5F0E8;
+  --text-muted: rgba(255,255,255,0.5);
+  --text-dim: rgba(255,255,255,0.7);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--night);
+  color: #fff;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ─── CUSTOM SCROLLBAR ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--night); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+/* ─── NAVBAR ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem;
+  height: 60px;
+  background: rgba(7,11,24,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 0.5px solid rgba(201,168,76,0.2);
+}
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.05em;
+  color: #fff;
+  text-decoration: none;
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-logo-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--gold-light);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+
+.nav-links {
+  display: flex; gap: 1.5rem; list-style: none;
+  align-items: center;
+}
+.nav-links a {
+  color: var(--text-dim); text-decoration: none;
+  font-size: 13px; font-weight: 500;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--gold-light); }
+.nav-pill {
+  background: var(--gold);
+  color: var(--night) !important;
+  padding: 5px 14px; border-radius: 20px;
+  font-weight: 600 !important;
+}
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  height: 100vh; min-height: 600px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* SVG Skyline background */
+.skyline-bg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+}
+
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(7,11,24,0.3) 0%,
+    rgba(7,11,24,0.1) 40%,
+    rgba(7,11,24,0.7) 75%,
+    rgba(7,11,24,1) 100%
+  );
+}
+
+.hero-stars {
+  position: absolute; inset: 0;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 800px;
+  padding: 0 2rem;
+}
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(201,168,76,0.15);
+  border: 0.5px solid rgba(201,168,76,0.4);
+  border-radius: 20px;
+  padding: 5px 16px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.8s ease both;
+}
+
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(60px, 12vw, 110px);
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.2rem;
+  animation: fadeUp 0.8s 0.15s ease both;
+}
+.hero h1 .accent { color: var(--gold-light); }
+
+.hero-sub {
+  font-size: 16px;
+  color: var(--text-dim);
+  max-width: 520px;
+  margin: 0 auto 2rem;
+  line-height: 1.7;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+
+.hero-cta-row {
+  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  animation: fadeUp 0.8s 0.45s ease both;
+}
+.btn-primary {
+  background: var(--gold);
+  color: var(--night);
+  padding: 12px 28px;
+  border-radius: 4px;
+  font-weight: 600; font-size: 14px;
+  text-decoration: none;
+  border: none; cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: transform 0.15s, background 0.15s;
+  letter-spacing: 0.03em;
+}
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+.btn-ghost {
+  background: transparent;
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 4px;
+  border: 0.5px solid rgba(255,255,255,0.3);
+  font-size: 14px; font-weight: 500;
+  text-decoration: none; cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: border-color 0.2s, background 0.2s;
+  letter-spacing: 0.03em;
+}
+.btn-ghost:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.05); }
+
+/* Line indicator strip */
+.line-strip {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  display: flex; height: 4px;
+}
+.line-seg { flex: 1; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── DISCLAIMER ─── */
+.disclaimer-bar {
+  background: rgba(201,168,76,0.08);
+  border-top: 0.5px solid rgba(201,168,76,0.2);
+  border-bottom: 0.5px solid rgba(201,168,76,0.2);
+  padding: 12px 2rem;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(201,168,76,0.8);
+  line-height: 1.6;
+}
+
+/* ─── SECTION WRAPPER ─── */
+.section { padding: 4rem 2rem; max-width: 1100px; margin: 0 auto; }
+.section-alt { background: var(--night2); }
+.section-alt-wrap { background: var(--night2); }
+
+.section-label {
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 5vw, 52px);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  margin-bottom: 1rem;
+}
+.section-subtitle {
+  color: var(--text-dim);
+  font-size: 15px;
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+/* ─── HOURS SECTION ─── */
+.hours-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 2rem;
+}
+.hours-card {
+  background: var(--night3);
+  padding: 1.5rem;
+  transition: background 0.2s;
+}
+.hours-card:hover { background: #1a2035; }
+.hours-day {
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500; margin-bottom: 8px;
+  font-family: 'DM Mono', monospace;
+}
+.hours-time {
+  font-size: 22px; font-weight: 500;
+  letter-spacing: -0.02em; color: #fff;
+}
+.hours-note { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.hours-open-tag {
+  display: inline-block;
+  font-size: 10px; padding: 2px 8px; border-radius: 10px;
+  background: rgba(0,168,89,0.15);
+  border: 0.5px solid rgba(0,168,89,0.4);
+  color: #00A859; margin-top: 8px;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.08em;
+}
+
+/* ─── LINES SECTION ─── */
+.lines-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 2rem;
+}
+.line-card {
+  border-radius: 12px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+  border: 0.5px solid rgba(255,255,255,0.08);
+}
+.line-card:hover { transform: translateY(-3px); }
+.line-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.line-card-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px; letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+.line-card-route {
+  font-size: 12px; color: rgba(255,255,255,0.6);
+  line-height: 1.5; margin-bottom: 1rem;
+}
+.line-stations-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; letter-spacing: 0.1em;
+  opacity: 0.6;
+}
+.line-icon {
+  position: absolute; right: 1.5rem; top: 1.5rem;
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px; color: #fff;
+}
+
+/* ─── TRIP PLANNER ─── */
+.planner-wrap {
+  background: var(--night3);
+  border-radius: 16px;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+  margin-top: 2rem;
+}
+.planner-header {
+  background: rgba(201,168,76,0.08);
+  border-bottom: 0.5px solid rgba(201,168,76,0.15);
+  padding: 1.25rem 1.5rem;
+  display: flex; align-items: center; gap: 10px;
+}
+.planner-header-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px; letter-spacing: 0.05em;
+  color: var(--gold-light);
+}
+.planner-body { padding: 1.5rem; }
+
+.form-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  margin-bottom: 12px;
+}
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-label {
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); font-family: 'DM Mono', monospace;
+}
+.form-select, .form-input {
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  width: 100%;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+.form-select:focus, .form-input:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+.form-select option { background: var(--night3); color: #fff; }
+
+.swap-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 0.5px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.04);
+  color: var(--text-dim); font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s;
+  margin: auto;
+}
+.swap-btn:hover { border-color: var(--gold); color: var(--gold); transform: rotate(180deg); }
+
+.plan-btn {
+  width: 100%; padding: 14px;
+  background: var(--gold);
+  color: var(--night);
+  border: none; border-radius: 8px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px; letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 4px;
+}
+.plan-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+/* Result panel */
+.result-panel {
+  display: none;
+  margin-top: 1.5rem;
+  border-top: 0.5px solid rgba(255,255,255,0.08);
+  padding-top: 1.5rem;
+}
+
+.result-hero-row {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 1.25rem; flex-wrap: wrap;
+}
+.result-line-chip {
+  padding: 5px 14px; border-radius: 20px;
+  font-size: 12px; font-weight: 600; color: #fff;
+  font-family: 'DM Mono', monospace; letter-spacing: 0.06em;
+}
+.result-title {
+  font-size: 16px; font-weight: 500; color: #fff;
+}
+
+.stats-row {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 8px; margin-bottom: 1rem;
+}
+.stat-box {
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 12px;
+  text-align: center;
+}
+.stat-val {
+  font-size: 26px; font-weight: 500;
+  color: #fff; line-height: 1;
+}
+.stat-lbl { font-size: 10px; color: var(--text-muted); margin-top: 4px; font-family: 'DM Mono', monospace; letter-spacing: 0.06em; }
+
+.fare-banner {
+  background: linear-gradient(135deg, rgba(0,168,89,0.12), rgba(0,168,89,0.06));
+  border: 0.5px solid rgba(0,168,89,0.25);
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1rem; flex-wrap: wrap; gap: 8px;
+}
+.fare-big { font-size: 32px; font-weight: 600; color: #2ecc71; letter-spacing: -0.02em; }
+.fare-detail { font-size: 12px; color: rgba(0,168,89,0.8); margin-top: 2px; }
+
+.transfer-alert {
+  background: rgba(9,156,222,0.08);
+  border: 0.5px solid rgba(9,156,222,0.25);
+  border-radius: 8px; padding: 10px 14px;
+  font-size: 13px; color: rgba(100,180,255,0.9);
+  margin-bottom: 1rem; line-height: 1.5;
+  display: none;
+}
+
+.steps-title {
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); font-family: 'DM Mono', monospace;
+  margin-bottom: 10px;
+}
+.steps-list { list-style: none; }
+.step-row {
+  display: flex; gap: 12px;
+  padding: 10px 0; border-bottom: 0.5px solid rgba(255,255,255,0.05);
+  align-items: flex-start;
+}
+.step-row:last-child { border-bottom: none; }
+.step-num {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(201,168,76,0.15);
+  border: 0.5px solid rgba(201,168,76,0.4);
+  color: var(--gold-light);
+  font-size: 11px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+  font-family: 'DM Mono', monospace;
+}
+.step-text { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+
+.map-open-btn {
+  width: 100%; padding: 12px;
+  background: rgba(0,168,89,0.15);
+  border: 0.5px solid rgba(0,168,89,0.3);
+  color: #2ecc71;
+  border-radius: 8px;
+  font-size: 14px; font-weight: 500;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  margin-top: 1rem;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.map-open-btn:hover { background: rgba(0,168,89,0.25); }
+
+/* ─── FARE SECTION ─── */
+.fare-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px; background: rgba(255,255,255,0.06);
+  border-radius: 12px; overflow: hidden; margin-top: 2rem;
+}
+.fare-card {
+  background: var(--night3); padding: 1.5rem;
+}
+.fare-badge {
+  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  font-family: 'DM Mono', monospace; margin-bottom: 8px;
+  display: inline-block; padding: 3px 8px; border-radius: 4px;
+}
+.fare-price { font-size: 28px; font-weight: 500; color: #fff; margin: 4px 0; }
+.fare-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+.payment-methods {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px; margin-top: 2rem;
+}
+.pay-card {
+  background: var(--night3);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 1.25rem;
+  text-align: center;
+}
+.pay-icon { font-size: 28px; margin-bottom: 8px; }
+.pay-name { font-size: 13px; font-weight: 500; color: #fff; margin-bottom: 4px; }
+.pay-desc { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+
+/* ─── RULES SECTION ─── */
+.rules-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px; margin-top: 2rem;
+}
+.rule-card {
+  background: var(--night3);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 12px; padding: 1.25rem;
+  display: flex; gap: 12px; align-items: flex-start;
+  transition: border-color 0.2s;
+}
+.rule-card:hover { border-color: rgba(255,255,255,0.15); }
+.rule-icon-wrap {
+  width: 38px; height: 38px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.rule-icon-wrap.no { background: rgba(227,24,55,0.12); }
+.rule-icon-wrap.yes { background: rgba(0,168,89,0.12); }
+.rule-icon-wrap.warn { background: rgba(247,148,29,0.12); }
+.rule-title { font-size: 13px; font-weight: 500; color: #fff; margin-bottom: 3px; }
+.rule-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+.rule-tag {
+  display: inline-block; font-size: 9px; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 2px 7px; border-radius: 4px;
+  margin-bottom: 4px; font-family: 'DM Mono', monospace;
+}
+.tag-no { background: rgba(227,24,55,0.15); color: #ff6b6b; }
+.tag-yes { background: rgba(0,168,89,0.15); color: #2ecc71; }
+.tag-warn { background: rgba(247,148,29,0.15); color: #f7941d; }
+
+/* ─── LIVE STATUS ─── */
+.status-board {
+  background: var(--night3);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 16px; overflow: hidden;
+  margin-top: 2rem;
+}
+.status-header {
+  padding: 1rem 1.5rem;
+  background: rgba(255,255,255,0.02);
+  border-bottom: 0.5px solid rgba(255,255,255,0.06);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.live-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: #2ecc71;
+  animation: pulse 2s infinite; display: inline-block; margin-right: 6px;
+}
+.status-row {
+  display: flex; align-items: center; padding: 12px 1.5rem;
+  border-bottom: 0.5px solid rgba(255,255,255,0.04);
+  gap: 12px;
+}
+.status-row:last-child { border-bottom: none; }
+.status-line-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+}
+.status-line-name { font-size: 13px; font-weight: 500; flex: 1; }
+.status-chip {
+  font-size: 10px; padding: 3px 10px; border-radius: 10px;
+  font-family: 'DM Mono', monospace; letter-spacing: 0.06em;
+}
+.status-good { background: rgba(0,168,89,0.15); color: #2ecc71; border: 0.5px solid rgba(0,168,89,0.3); }
+.status-warn { background: rgba(247,148,29,0.15); color: #f7941d; border: 0.5px solid rgba(247,148,29,0.3); }
+.status-note { font-size: 12px; color: var(--text-muted); }
+
+/* ─── TIPS / FEATURES ─── */
+.tips-masonry {
+  columns: 3; column-gap: 16px; margin-top: 2rem;
+}
+.tip-card {
+  background: var(--night3);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 12px; padding: 1.25rem;
+  break-inside: avoid; margin-bottom: 16px;
+  transition: border-color 0.2s;
+}
+.tip-card:hover { border-color: rgba(201,168,76,0.3); }
+.tip-category {
+  font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); font-family: 'DM Mono', monospace;
+  margin-bottom: 8px;
+}
+.tip-emoji { font-size: 22px; margin-bottom: 8px; display: block; }
+.tip-title { font-size: 14px; font-weight: 500; color: #fff; margin-bottom: 4px; }
+.tip-body { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+
+/* ─── NEAR ME ─── */
+.near-me-panel {
+  background: var(--night3);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 16px; overflow: hidden; margin-top: 2rem;
+}
+.near-me-btn {
+  width: 100%; padding: 18px;
+  background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.04));
+  border: none; color: var(--gold-light);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px; letter-spacing: 0.08em;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: background 0.2s;
+}
+.near-me-btn:hover { background: linear-gradient(135deg, rgba(201,168,76,0.2), rgba(201,168,76,0.08)); }
+.near-me-results { padding: 1rem 1.5rem; display: none; }
+.near-station-card {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; border-bottom: 0.5px solid rgba(255,255,255,0.05);
+}
+.near-station-card:last-child { border-bottom: none; }
+.near-station-name { font-size: 14px; font-weight: 500; color: #fff; }
+.near-station-dist { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.near-station-lines { display: flex; gap: 4px; }
+.mini-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* ─── ACCESSIBILITY ─── */
+.access-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px; margin-top: 2rem;
+}
+.access-card {
+  background: var(--night3);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 1.25rem;
+}
+.access-icon { font-size: 26px; margin-bottom: 8px; }
+.access-title { font-size: 13px; font-weight: 500; color: #fff; margin-bottom: 4px; }
+.access-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+/* ─── QUICK LINKS ─── */
+.quick-links-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px; margin-top: 2rem;
+}
+.quick-link {
+  background: var(--night3);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 1.25rem;
+  text-decoration: none; color: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: all 0.2s;
+}
+.quick-link:hover {
+  border-color: var(--gold);
+  background: rgba(201,168,76,0.05);
+  transform: translateY(-2px);
+}
+.quick-link-text { font-size: 14px; font-weight: 500; }
+.quick-link-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.quick-link-arrow { font-size: 18px; color: var(--gold); opacity: 0.7; }
+
+/* ─── GLOSSARY ─── */
+.glossary-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px; margin-top: 2rem;
+}
+.glossary-card {
+  background: var(--night3);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 1.25rem;
+}
+.glossary-term {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px; color: var(--gold); margin-bottom: 4px;
+  letter-spacing: 0.06em;
+}
+.glossary-def { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--night2);
+  border-top: 0.5px solid rgba(255,255,255,0.06);
+  padding: 3rem 2rem 2rem;
+  text-align: center;
+}
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px; letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+.footer-logo span { color: var(--gold); }
+.footer-tagline { font-size: 13px; color: var(--text-muted); margin-bottom: 1.5rem; }
+.footer-links {
+  display: flex; gap: 1.5rem; justify-content: center;
+  flex-wrap: wrap; margin-bottom: 1.5rem;
+}
+.footer-links a {
+  color: var(--text-muted); text-decoration: none; font-size: 13px;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--gold); }
+.footer-disclaimer {
+  font-size: 11px; color: rgba(255,255,255,0.25);
+  max-width: 600px; margin: 0 auto; line-height: 1.7;
+}
+.footer-line-strip {
+  display: flex; height: 2px; border-radius: 1px; overflow: hidden;
+  max-width: 300px; margin: 1.5rem auto 0;
+}
+
+/* ─── CLOCK ─── */
+.live-clock {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px; color: var(--gold-light);
+  letter-spacing: 0.08em;
+}
+
+/* ─── SEARCH BAR ─── */
+.station-search {
+  position: relative; margin-bottom: 12px;
+}
+.station-search input {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.12);
+  border-radius: 8px; padding: 10px 12px 10px 36px;
+  color: #fff; font-family: 'DM Sans', sans-serif; font-size: 14px;
+}
+.station-search input:focus { outline: none; border-color: var(--gold); }
+.station-search::before {
+  content: '⌕';
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  color: rgba(255,255,255,0.3); font-size: 18px; pointer-events: none;
+}
+
+/* ─── TABS ─── */
+.tabs {
+  display: flex; gap: 4px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 8px; padding: 4px;
+  margin-bottom: 1.5rem; flex-wrap: wrap;
+}
+.tab-btn {
+  padding: 7px 16px; border-radius: 6px;
+  font-size: 12px; font-weight: 500;
+  border: none; background: transparent; color: var(--text-muted);
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  transition: all 0.2s; letter-spacing: 0.02em;
+}
+.tab-btn.active {
+  background: var(--gold);
+  color: var(--night);
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ─── MOBILE RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .form-row { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .tips-masonry { columns: 1; }
+  nav .nav-links { display: none; }
+  .hero h1 { font-size: 56px; }
+}
+
+/* ─── ERROR MSG ─── */
+.err-msg {
+  display: none;
+  background: rgba(227,24,55,0.1);
+  border: 0.5px solid rgba(227,24,55,0.3);
+  border-radius: 8px; padding: 10px 14px;
+  font-size: 13px; color: #ff8fa3; margin-top: 10px;
+}
+
+/* ─── SECTION DIVIDER ─── */
+.divider {
+  height: 0.5px;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent);
+  margin: 0 2rem;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+
+<body>
+
+<!-- ─── NAVBAR ─── -->
+<nav>
+  <a class="nav-logo" href="#top">
+    <div class="nav-logo-dot"></div>
+    METRO<span style="color:var(--gold);">DMV</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#hours">Hours</a></li>
+    <li><a href="#lines">Lines</a></li>
+    <li><a href="#planner">Trip Planner</a></li>
+    <li><a href="#fares">Fares</a></li>
+    <li><a href="#rules">Rules</a></li>
+    <li><a href="#tips">Tips</a></li>
+    <li><a href="https://www.wmata.com" target="_blank" class="nav-pill">Official WMATA →</a></li>
+  </ul>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero" id="top">
+
+  <!-- Generated SVG Skyline — original art, not copyrighted -->
+  <svg class="skyline-bg" viewBox="0 0 1440 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#0a0e20"/>
+        <stop offset="40%" stop-color="#0f1628"/>
+        <stop offset="100%" stop-color="#1a0a05"/>
+      </linearGradient>
+      <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#0d1835"/>
+        <stop offset="100%" stop-color="#070b18"/>
+      </linearGradient>
+      <radialGradient id="moonGlow" cx="50%" cy="30%" r="40%">
+        <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.12"/>
+        <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+
+    <!-- Sky -->
+    <rect width="1440" height="800" fill="url(#skyGrad)"/>
+    <rect width="1440" height="800" fill="url(#moonGlow)"/>
+
+    <!-- Stars -->
+    <g fill="white" opacity="0.7">
+      <circle cx="120" cy="60" r="1"/><circle cx="280" cy="40" r="0.8"/>
+      <circle cx="420" cy="80" r="1.2"/><circle cx="560" cy="30" r="0.6"/>
+      <circle cx="700" cy="55" r="1"/><circle cx="850" cy="25" r="0.8"/>
+      <circle cx="990" cy="70" r="1.1"/><circle cx="1130" cy="45" r="0.7"/>
+      <circle cx="1270" cy="60" r="1"/><circle cx="1390" cy="35" r="0.9"/>
+      <circle cx="200" cy="120" r="0.7"/><circle cx="380" cy="140" r="1"/>
+      <circle cx="640" cy="100" r="0.8"/><circle cx="920" cy="130" r="0.6"/>
+      <circle cx="1050" cy="90" r="1.2"/><circle cx="1320" cy="110" r="0.8"/>
+      <circle cx="80" cy="180" r="0.6"/><circle cx="340" cy="200" r="1"/>
+      <circle cx="760" cy="160" r="0.7"/><circle cx="1200" cy="175" r="0.9"/>
+    </g>
+
+    <!-- Moon -->
+    <circle cx="1100" cy="100" r="28" fill="#C9A84C" opacity="0.18"/>
+    <circle cx="1100" cy="100" r="22" fill="#E8D5A3" opacity="0.12"/>
+    <circle cx="1100" cy="100" r="15" fill="#F5EDD5" opacity="0.08"/>
+
+    <!-- Washington Monument -->
+    <g fill="#1C2240" stroke="#2a3260" stroke-width="0.5">
+      <polygon points="720,160 710,500 730,500" fill="#1e2545"/>
+      <polygon points="712,490 728,490 732,510 708,510" fill="#1a2040"/>
+    </g>
+    <circle cx="720" cy="163" r="3" fill="#E31837" opacity="0.9"/>
+
+    <!-- Lincoln Memorial columns -->
+    <g fill="#1a2040" stroke="#232b55" stroke-width="0.5">
+      <rect x="540" y="430" width="200" height="8" rx="1"/>
+      <rect x="560" y="350" width="160" height="80" rx="2"/>
+      <rect x="548" y="438" width="8" height="80" rx="1"/>
+      <rect x="562" y="438" width="8" height="80" rx="1"/>
+      <rect x="576" y="438" width="8" height="80" rx="1"/>
+      <rect x="590" y="438" width="8" height="80" rx="1"/>
+      <rect x="604" y="438" width="8" height="80" rx="1"/>
+      <rect x="618" y="438" width="8" height="80" rx="1"/>
+      <rect x="632" y="438" width="8" height="80" rx="1"/>
+      <rect x="646" y="438" width="8" height="80" rx="1"/>
+      <rect x="660" y="438" width="8" height="80" rx="1"/>
+      <rect x="674" y="438" width="8" height="80" rx="1"/>
+      <rect x="688" y="438" width="8" height="80" rx="1"/>
+      <rect x="702" y="438" width="8" height="80" rx="1"/>
+      <rect x="536" y="518" width="208" height="14" rx="2"/>
+    </g>
+
+    <!-- US Capitol dome -->
+    <g fill="#151d3a" stroke="#1f2a50" stroke-width="0.5">
+      <rect x="870" y="440" width="180" height="90" rx="2"/>
+      <rect x="890" y="400" width="140" height="40" rx="4"/>
+      <ellipse cx="960" cy="400" rx="55" ry="35" fill="#151d3a" stroke="#1f2a50"/>
+      <ellipse cx="960" cy="375" rx="35" ry="25" fill="#151d3a"/>
+      <rect x="953" y="305" width="14" height="70"/>
+      <circle cx="960" cy="300" r="8" fill="#C9A84C" opacity="0.6"/>
+    </g>
+    <!-- Capitol windows -->
+    <g fill="rgba(201,168,76,0.25)">
+      <rect x="878" y="460" width="10" height="16" rx="1"/>
+      <rect x="896" y="460" width="10" height="16" rx="1"/>
+      <rect x="914" y="460" width="10" height="16" rx="1"/>
+      <rect x="990" y="460" width="10" height="16" rx="1"/>
+      <rect x="1008" y="460" width="10" height="16" rx="1"/>
+      <rect x="1026" y="460" width="10" height="16" rx="1"/>
+    </g>
+
+    <!-- Office buildings left -->
+    <g fill="#0f1630" stroke="#1a2244" stroke-width="0.5">
+      <rect x="50" y="380" width="80" height="150" rx="2"/>
+      <rect x="140" y="350" width="60" height="180" rx="2"/>
+      <rect x="210" y="400" width="70" height="130" rx="2"/>
+      <rect x="290" y="370" width="90" height="160" rx="2"/>
+      <rect x="390" y="410" width="60" height="120" rx="2"/>
+    </g>
+    <!-- Windows left buildings -->
+    <g fill="rgba(201,168,76,0.2)">
+      <rect x="60" y="390" width="8" height="10" rx="1"/><rect x="76" y="390" width="8" height="10" rx="1"/>
+      <rect x="60" y="410" width="8" height="10" rx="1"/><rect x="76" y="410" width="8" height="10" rx="1"/>
+      <rect x="60" y="430" width="8" height="10" rx="1"/><rect x="76" y="430" width="8" height="10" rx="1"/>
+      <rect x="60" y="450" width="8" height="10" rx="1"/><rect x="76" y="450" width="8" height="10" rx="1"/>
+      <rect x="148" y="360" width="8" height="10" rx="1"/><rect x="164" y="360" width="8" height="10" rx="1"/>
+      <rect x="148" y="382" width="8" height="10" rx="1"/><rect x="164" y="382" width="8" height="10" rx="1"/>
+      <rect x="148" y="404" width="8" height="10" rx="1"/><rect x="164" y="404" width="8" height="10" rx="1"/>
+      <rect x="300" y="380" width="8" height="10" rx="1"/><rect x="318" y="380" width="8" height="10" rx="1"/>
+      <rect x="300" y="402" width="8" height="10" rx="1"/><rect x="318" y="402" width="8" height="10" rx="1"/>
+      <rect x="336" y="380" width="8" height="10" rx="1"/><rect x="354" y="380" width="8" height="10" rx="1"/>
+    </g>
+    <!-- Lit windows left (warm) -->
+    <g fill="rgba(255,200,80,0.5)">
+      <rect x="92" y="390" width="8" height="10" rx="1"/>
+      <rect x="180" y="360" width="8" height="10" rx="1"/>
+      <rect x="164" y="404" width="8" height="10" rx="1"/>
+      <rect x="318" y="402" width="8" height="10" rx="1"/>
+      <rect x="336" y="402" width="8" height="10" rx="1"/>
+    </g>
+
+    <!-- Office buildings right -->
+    <g fill="#0f1630" stroke="#1a2244" stroke-width="0.5">
+      <rect x="1100" y="390" width="70" height="140" rx="2"/>
+      <rect x="1180" y="360" width="80" height="170" rx="2"/>
+      <rect x="1270" y="400" width="90" height="130" rx="2"/>
+      <rect x="1370" y="380" width="70" height="150" rx="2"/>
+    </g>
+    <g fill="rgba(201,168,76,0.2)">
+      <rect x="1108" y="400" width="8" height="10" rx="1"/><rect x="1124" y="400" width="8" height="10" rx="1"/>
+      <rect x="1108" y="422" width="8" height="10" rx="1"/><rect x="1124" y="422" width="8" height="10" rx="1"/>
+      <rect x="1188" y="370" width="8" height="10" rx="1"/><rect x="1206" y="370" width="8" height="10" rx="1"/>
+      <rect x="1188" y="394" width="8" height="10" rx="1"/><rect x="1206" y="394" width="8" height="10" rx="1"/>
+      <rect x="1280" y="412" width="8" height="10" rx="1"/><rect x="1298" y="412" width="8" height="10" rx="1"/>
+    </g>
+    <g fill="rgba(255,200,80,0.5)">
+      <rect x="1140" y="400" width="8" height="10" rx="1"/>
+      <rect x="1224" y="370" width="8" height="10" rx="1"/>
+      <rect x="1206" y="394" width="8" height="10" rx="1"/>
+      <rect x="1316" y="412" width="8" height="10" rx="1"/>
+    </g>
+
+    <!-- Ground / horizon -->
+    <rect x="0" y="528" width="1440" height="20" fill="#0a1020" opacity="0.8"/>
+
+    <!-- Potomac River -->
+    <rect x="0" y="540" width="1440" height="120" fill="url(#waterGrad)" opacity="0.95"/>
+
+    <!-- Water shimmer lines -->
+    <g stroke="#1a3060" stroke-width="1" opacity="0.4">
+      <line x1="0" y1="560" x2="1440" y2="560"/>
+      <line x1="0" y1="575" x2="1440" y2="575"/>
+      <line x1="0" y1="590" x2="1440" y2="590"/>
+      <line x1="0" y1="605" x2="1440" y2="605"/>
+    </g>
+
+    <!-- Monument reflection in water -->
+    <polygon points="720,545 710,620 730,620" fill="#C9A84C" opacity="0.08"/>
+
+    <!-- Gold reflections on water -->
+    <g opacity="0.3">
+      <ellipse cx="720" cy="570" rx="30" ry="4" fill="#C9A84C"/>
+      <ellipse cx="720" cy="585" rx="20" ry="2" fill="#C9A84C"/>
+      <ellipse cx="960" cy="565" rx="25" ry="3" fill="#C9A84C"/>
+      <ellipse cx="1100" cy="558" rx="18" ry="2" fill="#FFFFFF"/>
+    </g>
+
+    <!-- Metro train silhouette -->
+    <g fill="#0a0e20" stroke="#1a2244" stroke-width="0.5" opacity="0.9">
+      <rect x="300" y="512" width="200" height="20" rx="4"/>
+      <rect x="310" y="504" width="52" height="12" rx="3"/>
+      <rect x="370" y="504" width="52" height="12" rx="3"/>
+      <rect x="430" y="504" width="52" height="12" rx="3"/>
+      <circle cx="330" cy="533" r="5" fill="#1a2244"/>
+      <circle cx="460" cy="533" r="5" fill="#1a2244"/>
+    </g>
+    <rect x="300" y="511" width="200" height="3" fill="#E31837" opacity="0.8"/>
+
+    <!-- Ground line -->
+    <rect x="0" y="530" width="1440" height="14" fill="#070b18"/>
+
+    <!-- WMATA Metro tile pattern on ground -->
+    <rect x="0" y="668" width="1440" height="132" fill="#070b18"/>
+  </svg>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span style="width:7px;height:7px;border-radius:50%;background:var(--gold-light);display:inline-block;animation:pulse 2s infinite"></span>
+      Independent Community Guide · DC, Maryland & Virginia
+    </div>
+    <h1>
+      NAVIGATE<br>
+      THE <span class="accent">DMV</span><br>
+      METRO
+    </h1>
+    <p class="hero-sub">
+      Your plain-language guide to the Washington Metro. Step-by-step directions, real fares, live tips, and everything first-timers (and locals) need to ride with confidence.
+    </p>
+    <div class="hero-cta-row">
+      <a href="#planner" class="btn-primary">Plan My Trip →</a>
+      <a href="#lines" class="btn-ghost">Explore Lines</a>
+    </div>
+  </div>
+
+  <div class="line-strip">
+    <div class="line-seg" style="background:var(--red)"></div>
+    <div class="line-seg" style="background:var(--blue)"></div>
+    <div class="line-seg" style="background:var(--orange)"></div>
+    <div class="line-seg" style="background:var(--green)"></div>
+    <div class="line-seg" style="background:var(--yellow)"></div>
+    <div class="line-seg" style="background:var(--silver)"></div>
+  </div>
+</section>
+
+<!-- ─── DISCLAIMER ─── -->
+<div class="disclaimer-bar">
+  ⚠ This is an independent community project created for informational purposes only. It is not affiliated with, endorsed by, or sponsored by WMATA, the Washington Metropolitan Area Transit Authority, the District of Columbia, the State of Maryland, or the Commonwealth of Virginia. Always verify schedules, fares, and service alerts at <strong>wmata.com</strong>.
+</div>
+
+<!-- ─── LIVE STATUS ─── -->
+<div class="section-alt-wrap">
+<div class="section reveal" id="status">
+  <div class="section-label">System Status</div>
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:0.5rem;">
+    <div class="section-title" style="margin-bottom:0;">All Lines</div>
+    <div class="live-clock" id="live-clock"></div>
+  </div>
+  <p class="section-subtitle">Simulated status board — for live updates visit <a href="https://www.wmata.com/service/status/" target="_blank" style="color:var(--gold);">wmata.com/service/status</a></p>
+
+  <div class="status-board">
+    <div class="status-header">
+      <span><span class="live-dot"></span><span style="font-size:13px;font-weight:500;">Metro Rail Status</span></span>
+      <span style="font-size:12px;color:var(--text-muted);">Updated just now</span>
+    </div>
+    <div class="status-row">
+      <div class="status-line-dot" style="background:var(--red)"></div>
+      <div class="status-line-name">Red Line</div>
+      <div class="status-note">Shady Grove ↔ Glenmont</div>
+      <div class="status-chip status-good">Normal Service</div>
+    </div>
+    <div class="status-row">
+      <div class="status-line-dot" style="background:var(--blue)"></div>
+      <div class="status-line-name">Blue Line</div>
+      <div class="status-note">Franconia–Springfield ↔ Downtown Largo</div>
+      <div class="status-chip status-good">Normal Service</div>
+    </div>
+    <div class="status-row">
+      <div class="status-line-dot" style="background:var(--orange)"></div>
+      <div class="status-line-name">Orange Line</div>
+      <div class="status-note">Vienna ↔ New Carrollton</div>
+      <div class="status-chip status-good">Normal Service</div>
+    </div>
+    <div class="status-row">
+      <div class="status-line-dot" style="background:var(--green)"></div>
+      <div class="status-line-name">Green Line</div>
+      <div class="status-note">Branch Avenue ↔ Greenbelt</div>
+      <div class="status-chip status-good">Normal Service</div>
+    </div>
+    <div class="status-row">
+      <div class="status-line-dot" style="background:var(--yellow)"></div>
+      <div class="status-line-name">Yellow Line</div>
+      <div class="status-note">Huntington ↔ Greenbelt</div>
+      <div class="status-chip status-good">Normal Service</div>
+    </div>
+    <div class="status-row">
+      <div class="status-line-dot" style="background:var(--silver)"></div>
+      <div class="status-line-name">Silver Line</div>
+      <div class="status-note">Ashburn ↔ Downtown Largo</div>
+      <div class="status-chip status-warn">Minor Delays</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── HOURS ─── -->
+<div class="section reveal" id="hours">
+  <div class="section-label">Operating Hours</div>
+  <div class="section-title">When Does Metro Run?</div>
+  <p class="section-subtitle">Metro hours vary by day. Plan ahead — last trains leave the terminal stations at closing time, so you need to board well before then.</p>
+
+  <div class="hours-grid">
+    <div class="hours-card">
+      <div class="hours-day">Monday – Thursday</div>
+      <div class="hours-time">5:00 AM – 12:00 AM</div>
+      <div class="hours-note">Midnight closing. Last trains depart terminals ~11:30 PM</div>
+      <div class="hours-open-tag">OPEN 19 HRS</div>
+    </div>
+    <div class="hours-card">
+      <div class="hours-day">Friday</div>
+      <div class="hours-time">5:00 AM – 2:00 AM</div>
+      <div class="hours-note">Extended weekend hours begin Friday night</div>
+      <div class="hours-open-tag">OPEN 21 HRS</div>
+    </div>
+    <div class="hours-card">
+      <div class="hours-day">Saturday</div>
+      <div class="hours-time">6:00 AM – 2:00 AM</div>
+      <div class="hours-note">Late opening. Weekend off-peak fares all day</div>
+      <div class="hours-open-tag">OPEN 20 HRS</div>
+    </div>
+    <div class="hours-card">
+      <div class="hours-day">Sunday</div>
+      <div class="hours-time">6:00 AM – 12:00 AM</div>
+      <div class="hours-note">Midnight closing. Weekend flat fares apply</div>
+      <div class="hours-open-tag">OPEN 18 HRS</div>
+    </div>
+  </div>
+
+  <div style="margin-top:1.5rem;background:rgba(201,168,76,0.06);border:0.5px solid rgba(201,168,76,0.15);border-radius:10px;padding:1rem 1.25rem;">
+    <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);font-family:'DM Mono',monospace;margin-bottom:6px;">Peak Hours (higher fares)</div>
+    <p style="font-size:13px;color:var(--text-dim);line-height:1.6;">Weekdays <strong style="color:#fff;">5:00 – 9:30 AM</strong> and <strong style="color:#fff;">3:00 – 7:00 PM</strong>. All other times including evenings, weekends, and federal holidays use off-peak or reduced flat-rate fares. After 9:30 PM and on weekends, fares drop to $2.25–$2.50.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── LINES ─── -->
+<div class="section-alt-wrap">
+<div class="section reveal" id="lines">
+  <div class="section-label">Metro Lines</div>
+  <div class="section-title">Six Color-Coded Lines</div>
+  <p class="section-subtitle">Each line is named for a color. Look for that color on the train's electronic sign and the colored stripe on station maps.</p>
+
+  <div class="lines-grid">
+    <div class="line-card" style="background:rgba(227,24,55,0.07);">
+      <div style="height:3px;background:var(--red);position:absolute;top:0;left:0;right:0;"></div>
+      <div class="line-icon" style="background:var(--red);">R</div>
+      <div class="line-card-name" style="color:var(--red);">Red Line</div>
+      <div class="line-card-route">Shady Grove ↔ Glenmont<br>Through Bethesda, Dupont Circle, Metro Center, Union Station</div>
+      <div class="line-stations-count">27 STATIONS · 33 MILES</div>
+    </div>
+    <div class="line-card" style="background:rgba(0,156,222,0.07);">
+      <div style="height:3px;background:var(--blue);position:absolute;top:0;left:0;right:0;"></div>
+      <div class="line-icon" style="background:var(--blue);">B</div>
+      <div class="line-card-name" style="color:var(--blue);">Blue Line</div>
+      <div class="line-card-route">Franconia–Springfield ↔ Downtown Largo<br>Through Pentagon, Rosslyn, Farragut West, Capitol South</div>
+      <div class="line-stations-count">27 STATIONS · 28 MILES</div>
+    </div>
+    <div class="line-card" style="background:rgba(247,148,29,0.07);">
+      <div style="height:3px;background:var(--orange);position:absolute;top:0;left:0;right:0;"></div>
+      <div class="line-icon" style="background:var(--orange);">O</div>
+      <div class="line-card-name" style="color:var(--orange);">Orange Line</div>
+      <div class="line-card-route">Vienna ↔ New Carrollton<br>Through Ballston, Rosslyn, Metro Center, L'Enfant Plaza</div>
+      <div class="line-stations-count">26 STATIONS · 26 MILES</div>
+    </div>
+    <div class="line-card" style="background:rgba(0,168,89,0.07);">
+      <div style="height:3px;background:var(--green);position:absolute;top:0;left:0;right:0;"></div>
+      <div class="line-icon" style="background:var(--green);">G</div>
+      <div class="line-card-name" style="color:var(--green);">Green Line</div>
+      <div class="line-card-route">Branch Avenue ↔ Greenbelt<br>Through Anacostia, Navy Yard, Gallery Place, Columbia Heights</div>
+      <div class="line-stations-count">21 STATIONS · 25 MILES</div>
+    </div>
+    <div class="line-card" style="background:rgba(255,209,0,0.07);">
+      <div style="height:3px;background:var(--yellow);position:absolute;top:0;left:0;right:0;"></div>
+      <div class="line-icon" style="background:var(--yellow);color:var(--night);">Y</div>
+      <div class="line-card-name" style="color:var(--yellow);">Yellow Line</div>
+      <div class="line-card-route">Huntington ↔ Greenbelt<br>Through Pentagon, L'Enfant Plaza, Gallery Place, Fort Totten</div>
+      <div class="line-stations-count">22 STATIONS · 22 MILES</div>
+    </div>
+    <div class="line-card" style="background:rgba(145,157,157,0.07);">
+      <div style="height:3px;background:var(--silver);position:absolute;top:0;left:0;right:0;"></div>
+      <div class="line-icon" style="background:var(--silver);">S</div>
+      <div class="line-card-name" style="color:var(--silver);">Silver Line</div>
+      <div class="line-card-route">Ashburn (Dulles Airport) ↔ Downtown Largo<br>Through Tysons, McLean, Rosslyn, L'Enfant Plaza</div>
+      <div class="line-stations-count">34 STATIONS · 37 MILES</div>
+    </div>
+  </div>
+
+  <div style="margin-top:1.5rem;background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:1rem 1.25rem;">
+    <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--silver);font-family:'DM Mono',monospace;margin-bottom:6px;">Shared Track Note</div>
+    <p style="font-size:13px;color:var(--text-dim);line-height:1.6;">The Blue, Orange, and Silver lines share tracks through central DC and across the Potomac. The Green and Yellow lines share tracks through downtown. This means a single station may serve multiple lines — a huge advantage for connections.</p>
+  </div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── TRIP PLANNER ─── -->
+<div class="section reveal" id="planner">
+  <div class="section-label">Trip Planner</div>
+  <div class="section-title">Where Are You Headed?</div>
+  <p class="section-subtitle">Select your stations, travel time, and get step-by-step directions with fare estimate and a link to walking directions.</p>
+
+  <div class="planner-wrap">
+    <div class="planner-header">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--gold)"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <div class="planner-header-title">Metro Trip Planner</div>
+      <div style="margin-left:auto;font-size:12px;color:var(--text-muted);font-family:'DM Mono',monospace;" id="header-time"></div>
+    </div>
+    <div class="planner-body">
+
+      <div style="display:grid;grid-template-columns:1fr 40px 1fr;gap:8px;align-items:end;margin-bottom:12px;">
+        <div class="form-group">
+          <label class="form-label">From Station</label>
+          <div class="station-search">
+            <input type="text" id="from-search" placeholder="Search station..." autocomplete="off" onkeyup="filterFrom()" class="form-input" style="padding-left:36px;background-image:none;">
+          </div>
+          <select class="form-select" id="from-station" size="1">
+            <option value="">Select origin...</option>
+          </select>
+        </div>
+        <button class="swap-btn" onclick="swapStations()" title="Swap stations">⇅</button>
+        <div class="form-group">
+          <label class="form-label">To Station</label>
+          <div class="station-search">
+            <input type="text" id="to-search" placeholder="Search station..." autocomplete="off" onkeyup="filterTo()" class="form-input" style="padding-left:36px;background-image:none;">
+          </div>
+          <select class="form-select" id="to-station" size="1">
+            <option value="">Select destination...</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Traveling At</label>
+          <select class="form-select" id="travel-time">
+            <option value="peak">Weekday Peak (5–9:30 AM / 3–7 PM)</option>
+            <option value="offpeak">Weekday Off-Peak (mid-day & evening)</option>
+            <option value="late">Late Night / Weekend (after 9:30 PM or Sat–Sun)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Rider Type</label>
+          <select class="form-select" id="rider-type">
+            <option value="regular">Regular Adult</option>
+            <option value="senior">Senior / Disabled (half price)</option>
+            <option value="child">Child (under 5, free)</option>
+            <option value="student">DC Student (Kids Ride Free)</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="plan-btn" onclick="planTrip()">GET DIRECTIONS</button>
+      <div class="err-msg" id="err-msg">Please select both a starting station and a destination.</div>
+
+      <!-- Result Panel -->
+      <div class="result-panel" id="result-panel">
+        <div class="result-hero-row">
+          <div class="result-line-chip" id="res-badge"></div>
+          <div class="result-title" id="res-title"></div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-box">
+            <div class="stat-val" id="res-stops">—</div>
+            <div class="stat-lbl">Stops</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" id="res-mins">—</div>
+            <div class="stat-lbl">Est. Mins</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" id="res-transfers">—</div>
+            <div class="stat-lbl">Transfers</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" id="res-direction">—</div>
+            <div class="stat-lbl">Direction</div>
+          </div>
+        </div>
+
+        <div class="fare-banner">
+          <div>
+            <div class="fare-big" id="res-fare">$2.25</div>
+            <div class="fare-detail" id="res-fare-detail">Estimated fare</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:11px;color:rgba(0,168,89,0.7);font-family:'DM Mono',monospace;letter-spacing:0.06em;">PAY WITH</div>
+            <div style="font-size:13px;color:#2ecc71;margin-top:2px;">SmarTrip · Contactless · Mobile</div>
+          </div>
+        </div>
+
+        <div class="transfer-alert" id="transfer-alert"></div>
+
+        <div class="steps-title">Step-by-Step Directions</div>
+        <ul class="steps-list" id="steps-list"></ul>
+
+        <button class="map-open-btn" onclick="openInMaps()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Open Walking Directions to <span id="map-btn-dest">Destination</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── FARES ─── -->
+<div class="section-alt-wrap">
+<div class="section reveal" id="fares">
+  <div class="section-label">Fares & Payment</div>
+  <div class="section-title">What Does It Cost?</div>
+  <p class="section-subtitle">Metrorail fares are distance-based and time-based. The farther you go and the earlier you travel on weekdays, the more you pay — up to a $6.75 cap.</p>
+
+  <div class="fare-grid">
+    <div class="fare-card">
+      <div class="fare-badge" style="background:rgba(227,24,55,0.12);color:#ff8fa3;">Weekday Peak</div>
+      <div class="fare-price">$2.25 – $6.75</div>
+      <div class="fare-desc">Mon–Fri 5–9:30 AM and 3–7 PM. Distance-based. Longer trips cost more.</div>
+    </div>
+    <div class="fare-card">
+      <div class="fare-badge" style="background:rgba(9,156,222,0.12);color:#7dd3fc;">Weekday Off-Peak</div>
+      <div class="fare-price">$2.25 – $6.75</div>
+      <div class="fare-desc">Weekday mid-day (9:30 AM–3 PM) and evenings (7–9:30 PM).</div>
+    </div>
+    <div class="fare-card">
+      <div class="fare-badge" style="background:rgba(0,168,89,0.12);color:#2ecc71;">Late Night / Weekend</div>
+      <div class="fare-price">$2.25 – $2.50</div>
+      <div class="fare-desc">After 9:30 PM weeknights and all day Saturday & Sunday. Best value!</div>
+    </div>
+    <div class="fare-card">
+      <div class="fare-badge" style="background:rgba(145,157,157,0.12);color:#a8c8e8;">Senior / Disabled</div>
+      <div class="fare-price">$1.10 – $3.35</div>
+      <div class="fare-desc">Half the peak fare at all times. Requires Senior or Disability SmarTrip card.</div>
+    </div>
+    <div class="fare-card">
+      <div class="fare-badge" style="background:rgba(201,168,76,0.12);color:var(--gold);">Children Under 5</div>
+      <div class="fare-price">FREE</div>
+      <div class="fare-desc">Up to 2 children under age 5 ride free with each paying adult.</div>
+    </div>
+    <div class="fare-card">
+      <div class="fare-badge" style="background:rgba(0,168,89,0.12);color:#2ecc71;">DC Students</div>
+      <div class="fare-price">FREE</div>
+      <div class="fare-desc">DC public, private, charter & parochial school students via Kids Ride Free program.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:2rem;">
+    <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);font-family:'DM Mono',monospace;margin-bottom:1rem;">How to Pay</div>
+    <div class="payment-methods">
+      <div class="pay-card">
+        <div class="pay-icon">💳</div>
+        <div class="pay-name">SmarTrip Card</div>
+        <div class="pay-desc">Rechargeable card. Buy at any station or at wmata.com. Best option for regular riders. $2 card fee.</div>
+      </div>
+      <div class="pay-card">
+        <div class="pay-icon">📱</div>
+        <div class="pay-name">Mobile SmarTrip</div>
+        <div class="pay-desc">Add SmarTrip to Apple Wallet or Google Wallet. Tap your phone at the fare gate — no physical card needed.</div>
+      </div>
+      <div class="pay-card">
+        <div class="pay-icon">💳</div>
+        <div class="pay-name">Contactless Card</div>
+        <div class="pay-desc">Tap any Visa, Mastercard, Amex, or Discover contactless card directly at the gate. Same tap to exit.</div>
+      </div>
+      <div class="pay-card">
+        <div class="pay-icon">🎟️</div>
+        <div class="pay-name">Day / Week Passes</div>
+        <div class="pay-desc">1-day unlimited ($13), 3-day ($28), 7-day unlimited rail+bus combo available. Great for tourists.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:1.5rem;background:rgba(201,168,76,0.06);border:0.5px solid rgba(201,168,76,0.15);border-radius:10px;padding:1rem 1.25rem;">
+    <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);font-family:'DM Mono',monospace;margin-bottom:6px;">Important: Always Tap Out</div>
+    <p style="font-size:13px;color:var(--text-dim);line-height:1.6;">You <strong style="color:#fff;">must tap your card or phone at the exit gate</strong> as well as the entry gate. If you forget to tap out, you will be charged the maximum fare ($6.75) on your next entry. If you're stuck at the exit, press the red button and talk to the station manager.</p>
+  </div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── RULES ─── -->
+<div class="section reveal" id="rules">
+  <div class="section-label">Rules & Regulations</div>
+  <div class="section-title">Know Before You Go</div>
+  <p class="section-subtitle">Metro has a firm set of rules. Violations can result in fines up to $300. Here's everything you need to know to ride without issues.</p>
+
+  <div class="rules-grid">
+    <div class="rule-card">
+      <div class="rule-icon-wrap no">🚫</div>
+      <div>
+        <span class="rule-tag tag-no">Not Allowed</span>
+        <div class="rule-title">No Food or Drink</div>
+        <div class="rule-desc">Eating and drinking is strictly prohibited on trains and in stations. Even sealed drinks must be put away. Fines apply.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon-wrap yes">🐕</div>
+      <div>
+        <span class="rule-tag tag-yes">Allowed</span>
+        <div class="rule-title">Service Animals Only</div>
+        <div class="rule-desc">Only trained service animals (ADA-compliant) are permitted. Pet dogs, cats, or other animals must be in a closed carrier bag small enough to fit on your lap.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon-wrap no">🚬</div>
+      <div>
+        <span class="rule-tag tag-no">Not Allowed</span>
+        <div class="rule-title">No Smoking or Vaping</div>
+        <div class="rule-desc">Smoking, e-cigarettes, and vaping devices are prohibited in all Metro facilities — platforms, mezzanines, trains, and parking structures.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon-wrap yes">🚲</div>
+      <div>
+        <span class="rule-tag tag-yes">Allowed (Rules Apply)</span>
+        <div class="rule-title">Bicycles Welcome</div>
+        <div class="rule-desc">Bikes allowed on trains at most times. Prohibited weekdays 7–10 AM and 4–7 PM. Must use elevator, not escalator. One bike per door.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon-wrap warn">🎵</div>
+      <div>
+        <span class="rule-tag tag-warn">Use Headphones</span>
+        <div class="rule-title">No Loud Music</div>
+        <div class="rule-desc">Playing music, videos, or audio through speakers is not permitted. Headphones or earbuds are required if you want to listen to media.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon-wrap no">⚡</div>
+      <div>
+        <span class="rule-tag tag-no">Dangerous</span>
+        <div class="rule-title">No E-Scooters / E-Bikes</div>
+        <div class="rule-desc">Electric scooters, e-bikes, and hoverboards with lithium-ion batteries are not allowed on Metrorail.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon-wrap warn">💺</div>
+      <div>
+        <span class="rule-tag tag-warn">Courtesy</span>
+        <div class="rule-title">Priority Seating</div>
+        <div class="rule-desc">Seats near the doors are reserved for seniors, disabled riders, and pregnant passengers. Offer your seat without waiting to be asked.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon-wrap warn">🧳</div>
+      <div>
+        <span class="rule-tag tag-warn">Be Aware</span>
+        <div class="rule-title">Large Items & Strollers</div>
+        <div class="rule-desc">Strollers must be folded before boarding if the train is crowded. Large luggage allowed but be courteous — avoid blocking doorways or aisles.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon-wrap no">🚨</div>
+      <div>
+        <span class="rule-tag tag-no">Illegal</span>
+        <div class="rule-title">No Weapons</div>
+        <div class="rule-desc">Concealed or open carry of firearms is prohibited on Metro property regardless of any permit status. This includes all stations, trains, and parking areas.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon-wrap yes">🧍</div>
+      <div>
+        <span class="rule-tag tag-yes">The Golden Rule</span>
+        <div class="rule-title">Stand Right, Walk Left</div>
+        <div class="rule-desc">This is the most important unwritten rule in DC. Always stand on the right side of escalators. The left is for people walking or in a hurry. Locals take this seriously.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon-wrap warn">📸</div>
+      <div>
+        <span class="rule-tag tag-warn">Limited</span>
+        <div class="rule-title">Photography Rules</div>
+        <div class="rule-desc">Personal photography for non-commercial use is generally allowed. Commercial video/photo shoots require a permit from WMATA. No photography in restricted areas.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon-wrap no">👟</div>
+      <div>
+        <span class="rule-tag tag-no">Obstructions</span>
+        <div class="rule-title">No Feet on Seats</div>
+        <div class="rule-desc">Placing feet on seats, sitting across multiple seats, or taking up extra space when the train is crowded is prohibited and subject to fines.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── NEAR ME ─── -->
+<div class="section-alt-wrap">
+<div class="section reveal" id="near-me">
+  <div class="section-label">Find a Station</div>
+  <div class="section-title">Nearest Metro to You</div>
+  <p class="section-subtitle">Allow location access to find the closest Metro stations and get walking directions from your current position.</p>
+
+  <div class="near-me-panel">
+    <button class="near-me-btn" onclick="findNearMe()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      USE MY LOCATION — FIND NEAREST STATIONS
+    </button>
+    <div class="near-me-results" id="near-results"></div>
+  </div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── TIPS ─── -->
+<div class="section reveal" id="tips">
+  <div class="section-label">Local Knowledge</div>
+  <div class="section-title">Insider Tips & Tricks</div>
+  <p class="section-subtitle">Everything from a local who's ridden the Metro hundreds of times — organized by topic.</p>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('all')">All Tips</button>
+    <button class="tab-btn" onclick="switchTab('firsttime')">First Timers</button>
+    <button class="tab-btn" onclick="switchTab('commuter')">Commuters</button>
+    <button class="tab-btn" onclick="switchTab('tourist')">Tourists</button>
+    <button class="tab-btn" onclick="switchTab('safety')">Safety</button>
+  </div>
+
+  <div id="tips-container">
+    <div class="tips-masonry" id="tips-masonry"></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── ACCESSIBILITY ─── -->
+<div class="section-alt-wrap">
+<div class="section reveal" id="access">
+  <div class="section-label">Accessibility</div>
+  <div class="section-title">Metro for Every Rider</div>
+  <p class="section-subtitle">All 98 Metro stations are fully accessible. Here's what to know before you ride.</p>
+
+  <div class="access-grid">
+    <div class="access-card">
+      <div class="access-icon">♿</div>
+      <div class="access-title">Elevators at Every Station</div>
+      <div class="access-desc">All stations have elevators from street level to platform. Check elevator status at wmata.com before you go.</div>
+    </div>
+    <div class="access-card">
+      <div class="access-icon">📻</div>
+      <div class="access-title">Audio Announcements</div>
+      <div class="access-desc">Every train announces each station stop. Digital displays show the next stop inside every car.</div>
+    </div>
+    <div class="access-card">
+      <div class="access-icon">🟡</div>
+      <div class="access-title">Tactile Warning Strips</div>
+      <div class="access-desc">Yellow bumpy strips at the platform edge warn visually-impaired riders of the danger zone near the tracks.</div>
+    </div>
+    <div class="access-card">
+      <div class="access-icon">🚪</div>
+      <div class="access-title">Wide Fare Gates</div>
+      <div class="access-desc">Every station has at least one wide gate for wheelchairs and strollers. Press the blue button for the gate to open.</div>
+    </div>
+    <div class="access-card">
+      <div class="access-icon">💛</div>
+      <div class="access-title">Metro Lift (SNAP Discount)</div>
+      <div class="access-desc">Customers receiving SNAP benefits qualify for 50% off all Metrorail and Metrobus trips via the Metro Lift program.</div>
+    </div>
+    <div class="access-card">
+      <div class="access-icon">🚐</div>
+      <div class="access-title">MetroAccess Paratransit</div>
+      <div class="access-desc">Door-to-door shared-ride service for eligible riders who cannot use fixed-route transit due to disability.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── GLOSSARY ─── -->
+<div class="section reveal" id="glossary">
+  <div class="section-label">Metro Glossary</div>
+  <div class="section-title">Learn the Lingo</div>
+  <p class="section-subtitle">New to the Metro? Here are the terms locals and WMATA use that might confuse first-timers.</p>
+
+  <div class="glossary-grid">
+    <div class="glossary-card">
+      <div class="glossary-term">SmarTrip</div>
+      <div class="glossary-def">WMATA's rechargeable payment card (physical or in your phone's wallet). Required for senior/disability discounts and bus-to-rail transfers.</div>
+    </div>
+    <div class="glossary-card">
+      <div class="glossary-term">Faregate</div>
+      <div class="glossary-def">The turnstile-style gates at station entrances and exits. Tap your card or phone to both enter AND exit.</div>
+    </div>
+    <div class="glossary-card">
+      <div class="glossary-term">Mezzanine</div>
+      <div class="glossary-def">The middle level of a Metro station — between street level and the platform. Where the faregates and station manager are located.</div>
+    </div>
+    <div class="glossary-card">
+      <div class="glossary-term">Transfer Station</div>
+      <div class="glossary-def">A station where two or more lines intersect. Examples: Metro Center (Red/Blue/Orange/Silver), Gallery Place (Red/Green/Yellow). Transfers are free.</div>
+    </div>
+    <div class="glossary-card">
+      <div class="glossary-term">Terminus</div>
+      <div class="glossary-def">The last stop on a line (e.g. Shady Grove on the Red Line). Trains always show the terminus of their direction on the electronic sign.</div>
+    </div>
+    <div class="glossary-card">
+      <div class="glossary-term">Peak Hours</div>
+      <div class="glossary-def">Mon–Fri 5–9:30 AM and 3–7 PM. Higher fares apply and trains run more frequently during these periods.</div>
+    </div>
+    <div class="glossary-card">
+      <div class="glossary-term">Composite Mile</div>
+      <div class="glossary-def">WMATA's fare calculation method: the average of the straight-line distance and the over-the-rail distance between two stations.</div>
+    </div>
+    <div class="glossary-card">
+      <div class="glossary-term">Farragut Crossing</div>
+      <div class="glossary-def">A free transfer between Farragut North (Red) and Farragut West (Blue/Orange/Silver). Exit one, walk 1 block, enter the other — no fare charged.</div>
+    </div>
+    <div class="glossary-card">
+      <div class="glossary-term">Platform</div>
+      <div class="glossary-def">The lower level where you wait for the train. Metro stations have a distinctive coffered concrete ceiling — one of the most recognizable transit designs in the world.</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ─── QUICK LINKS ─── -->
+<div class="section-alt-wrap">
+<div class="section reveal">
+  <div class="section-label">Resources</div>
+  <div class="section-title">Helpful Links</div>
+  <p class="section-subtitle">Official resources you should bookmark.</p>
+
+  <div class="quick-links-grid">
+    <a href="https://www.wmata.com" target="_blank" class="quick-link">
+      <div><div class="quick-link-text">WMATA Official Site</div><div class="quick-link-desc">Main Metro website</div></div>
+      <span class="quick-link-arrow">↗</span>
+    </a>
+    <a href="https://metropulse.wmata.com" target="_blank" class="quick-link">
+      <div><div class="quick-link-text">MetroPulse</div><div class="quick-link-desc">Live train tracker</div></div>
+      <span class="quick-link-arrow">↗</span>
+    </a>
+    <a href="https://www.wmata.com/service/status/" target="_blank" class="quick-link">
+      <div><div class="quick-link-text">Service Alerts</div><div class="quick-link-desc">Delays & disruptions</div></div>
+      <span class="quick-link-arrow">↗</span>
+    </a>
+    <a href="https://www.wmata.com/fares/basic.cfm" target="_blank" class="quick-link">
+      <div><div class="quick-link-text">Official Fare Calculator</div><div class="quick-link-desc">Exact fare by station pair</div></div>
+      <span class="quick-link-arrow">↗</span>
+    </a>
+    <a href="https://www.wmata.com/schedules/maps/" target="_blank" class="quick-link">
+      <div><div class="quick-link-text">System Maps</div><div class="quick-link-desc">Printable & interactive maps</div></div>
+      <span class="quick-link-arrow">↗</span>
+    </a>
+    <a href="https://www.wmata.com/fares/smartrip/" target="_blank" class="quick-link">
+      <div><div class="quick-link-text">Get SmarTrip</div><div class="quick-link-desc">Set up your payment card</div></div>
+      <span class="quick-link-arrow">↗</span>
+    </a>
+    <a href="https://www.wmata.com/service/accessibility/" target="_blank" class="quick-link">
+      <div><div class="quick-link-text">Accessibility Info</div><div class="quick-link-desc">Elevators, MetroAccess</div></div>
+      <span class="quick-link-arrow">↗</span>
+    </a>
+    <a href="https://www.wmata.com/about/lost-and-found.cfm" target="_blank" class="quick-link">
+      <div><div class="quick-link-text">Lost & Found</div><div class="quick-link-desc">Report or retrieve items</div></div>
+      <span class="quick-link-arrow">↗</span>
+    </a>
+  </div>
+</div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-logo">METRO<span>DMV</span></div>
+  <div class="footer-tagline">Your independent guide to navigating the Washington Metro system.</div>
+  <div class="footer-links">
+    <a href="#hours">Hours</a>
+    <a href="#lines">Lines</a>
+    <a href="#planner">Trip Planner</a>
+    <a href="#fares">Fares</a>
+    <a href="#rules">Rules</a>
+    <a href="#tips">Tips</a>
+    <a href="#access">Accessibility</a>
+    <a href="#glossary">Glossary</a>
+  </div>
+  <div class="footer-line-strip">
+    <div style="flex:1;background:var(--red)"></div>
+    <div style="flex:1;background:var(--blue)"></div>
+    <div style="flex:1;background:var(--orange)"></div>
+    <div style="flex:1;background:var(--green)"></div>
+    <div style="flex:1;background:var(--yellow)"></div>
+    <div style="flex:1;background:var(--silver)"></div>
+  </div>
+  <div class="footer-disclaimer" style="margin-top:1.5rem;">
+    This is an independent community project and is not affiliated with, endorsed by, or sponsored by WMATA, the Washington Metropolitan Area Transit Authority, the District of Columbia, the State of Maryland, or the Commonwealth of Virginia. Fare and schedule information is provided for general guidance only — always verify at wmata.com. Created by a DMV community member.
+  </div>
+</footer>
+
+<script>
+// ─── STATION DATA ───
+const LINES_DATA = {
+  red:    { name:'Red Line',    color:'#E31837', short:'RED' },
+  blue:   { name:'Blue Line',   color:'#009CDE', short:'BLUE' },
+  orange: { name:'Orange Line', color:'#F7941D', short:'ORANGE' },
+  green:  { name:'Green Line',  color:'#00A859', short:'GREEN' },
+  yellow: { name:'Yellow Line', color:'#FFD100', short:'YELLOW', textColor:'#1a1a1a' },
+  silver: { name:'Silver Line', color:'#919D9D', short:'SILVER' },
+};
+
+const STATIONS = [
+  {name:'Addison Road', lines:['blue'], lat:38.8855, lng:-76.8721},
+  {name:'Anacostia', lines:['green'], lat:38.8624, lng:-76.9953},
+  {name:'Archives', lines:['green','yellow'], lat:38.8936, lng:-77.0221},
+  {name:'Arlington Cemetery', lines:['blue','yellow'], lat:38.8838, lng:-77.0697},
+  {name:'Ashburn', lines:['silver'], lat:39.0010, lng:-77.4879},
+  {name:'Ballston–MU', lines:['orange','silver'], lat:38.8822, lng:-77.1117},
+  {name:'Benning Road', lines:['blue','silver'], lat:38.8919, lng:-76.9381},
+  {name:'Bethesda', lines:['red'], lat:38.9843, lng:-77.0944},
+  {name:'Braddock Road', lines:['blue','yellow'], lat:38.8129, lng:-77.0548},
+  {name:'Branch Avenue', lines:['green'], lat:38.8295, lng:-76.9122},
+  {name:'Brookland–CUA', lines:['red'], lat:38.9334, lng:-76.9946},
+  {name:'Capitol Heights', lines:['blue','silver'], lat:38.8895, lng:-76.9128},
+  {name:'Capitol South', lines:['blue','orange','silver'], lat:38.8852, lng:-77.0058},
+  {name:'Cheverly', lines:['orange'], lat:38.9260, lng:-76.9172},
+  {name:'Clarendon', lines:['orange','silver'], lat:38.8864, lng:-77.0946},
+  {name:'Cleveland Park', lines:['red'], lat:38.9343, lng:-77.0590},
+  {name:'College Park–University of Maryland', lines:['green'], lat:38.9787, lng:-76.9283},
+  {name:'Columbia Heights', lines:['green','yellow'], lat:38.9284, lng:-77.0328},
+  {name:'Congress Heights', lines:['green'], lat:38.8454, lng:-76.9955},
+  {name:'Court House', lines:['orange','silver'], lat:38.8915, lng:-77.0826},
+  {name:'Crystal City', lines:['blue','yellow'], lat:38.8576, lng:-77.0510},
+  {name:'Deanwood', lines:['orange'], lat:38.9076, lng:-76.9352},
+  {name:'Downtown Largo', lines:['blue','silver'], lat:38.9005, lng:-76.8359},
+  {name:'Dulles International Airport', lines:['silver'], lat:38.9559, lng:-77.4468},
+  {name:'Dunn Loring', lines:['orange'], lat:38.8834, lng:-77.2276},
+  {name:'Dupont Circle', lines:['red'], lat:38.9096, lng:-77.0435},
+  {name:'East Falls Church', lines:['orange','silver'], lat:38.8855, lng:-77.1568},
+  {name:'Eastern Market', lines:['blue','orange','silver'], lat:38.8842, lng:-76.9959},
+  {name:'Eisenhower Avenue', lines:['yellow'], lat:38.8019, lng:-77.0773},
+  {name:'Farragut North', lines:['red'], lat:38.9010, lng:-77.0396},
+  {name:'Farragut West', lines:['blue','orange','silver'], lat:38.9010, lng:-77.0396},
+  {name:'Federal Center SW', lines:['blue','orange','silver'], lat:38.8848, lng:-77.0151},
+  {name:'Federal Triangle', lines:['blue','orange','silver'], lat:38.8936, lng:-77.0280},
+  {name:'Foggy Bottom–GWU', lines:['blue','orange','silver'], lat:38.9001, lng:-77.0503},
+  {name:'Forest Glen', lines:['red'], lat:39.0150, lng:-77.0555},
+  {name:'Fort Totten', lines:['green','yellow','red'], lat:38.9519, lng:-76.9989},
+  {name:'Franconia–Springfield', lines:['blue'], lat:38.7660, lng:-77.1491},
+  {name:'Friendship Heights', lines:['red'], lat:38.9601, lng:-77.0858},
+  {name:'Gallery Place', lines:['red','green','yellow'], lat:38.8986, lng:-77.0218},
+  {name:'Georgia Avenue–Petworth', lines:['green','yellow'], lat:38.9374, lng:-77.0239},
+  {name:'Glenmont', lines:['red'], lat:39.0597, lng:-77.0526},
+  {name:'Greenbelt', lines:['green','yellow'], lat:39.0113, lng:-76.9110},
+  {name:'Greensboro', lines:['silver'], lat:38.9227, lng:-77.2342},
+  {name:'Grosvenor–Strathmore', lines:['red'], lat:39.0292, lng:-77.1057},
+  {name:'Herndon', lines:['silver'], lat:38.9687, lng:-77.3832},
+  {name:'Huntington', lines:['yellow'], lat:38.7943, lng:-77.0705},
+  {name:'Hyattsville Crossing', lines:['green','yellow'], lat:38.9573, lng:-76.9578},
+  {name:'Innovation Center', lines:['silver'], lat:38.9839, lng:-77.4396},
+  {name:'Judiciary Square', lines:['red'], lat:38.8967, lng:-77.0165},
+  {name:"King Street–Old Town", lines:['blue','yellow'], lat:38.8047, lng:-77.0609},
+  {name:"L'Enfant Plaza", lines:['blue','orange','silver','green','yellow'], lat:38.8844, lng:-77.0214},
+  {name:'Landover', lines:['blue','silver'], lat:38.9338, lng:-76.8903},
+  {name:'Loudoun Gateway', lines:['silver'], lat:38.9932, lng:-77.4623},
+  {name:'McLean', lines:['silver'], lat:38.9337, lng:-77.1774},
+  {name:'McPherson Square', lines:['blue','orange','silver'], lat:38.9012, lng:-77.0334},
+  {name:'Medical Center', lines:['red'], lat:38.9993, lng:-77.0977},
+  {name:'Metro Center', lines:['red','blue','orange','silver'], lat:38.8984, lng:-77.0283},
+  {name:'Minnesota Avenue', lines:['orange'], lat:38.8978, lng:-76.9457},
+  {name:'Morgan Boulevard', lines:['blue','silver'], lat:38.9011, lng:-76.8615},
+  {name:'Mount Vernon Square', lines:['green','yellow'], lat:38.9054, lng:-77.0220},
+  {name:'Navy Yard–Ballpark', lines:['green'], lat:38.8764, lng:-77.0050},
+  {name:'Naylor Road', lines:['green'], lat:38.8456, lng:-76.9563},
+  {name:'New Carrollton', lines:['orange','green'], lat:38.9480, lng:-76.8729},
+  {name:'NoMa–Gallaudet U', lines:['red'], lat:38.9075, lng:-77.0026},
+  {name:'North Bethesda', lines:['red'], lat:39.0435, lng:-77.1141},
+  {name:'Pentagon', lines:['blue','yellow'], lat:38.8685, lng:-77.0541},
+  {name:'Pentagon City', lines:['blue','yellow'], lat:38.8632, lng:-77.0596},
+  {name:'Potomac Avenue', lines:['blue','orange','silver'], lat:38.8810, lng:-76.9964},
+  {name:'Potomac Yard', lines:['blue','yellow'], lat:38.8255, lng:-77.0575},
+  {name:'Reston Town Center', lines:['silver'], lat:38.9595, lng:-77.3578},
+  {name:'Rhode Island Avenue', lines:['red'], lat:38.9210, lng:-76.9955},
+  {name:'Rockville', lines:['red'], lat:39.0846, lng:-77.1524},
+  {name:'Ronald Reagan Washington National Airport', lines:['blue','yellow'], lat:38.8527, lng:-77.0437},
+  {name:'Rosslyn', lines:['blue','orange','silver'], lat:38.8967, lng:-77.0710},
+  {name:'Shady Grove', lines:['red'], lat:39.1195, lng:-77.1648},
+  {name:'Shaw–Howard U', lines:['green','yellow'], lat:38.9126, lng:-77.0218},
+  {name:'Silver Spring', lines:['red'], lat:38.9940, lng:-77.0310},
+  {name:'Smithsonian', lines:['blue','orange','silver'], lat:38.8888, lng:-77.0282},
+  {name:'Spring Hill', lines:['silver'], lat:38.9278, lng:-77.2199},
+  {name:'Stadium–Armory', lines:['blue','orange','silver'], lat:38.8890, lng:-76.9726},
+  {name:'Suitland', lines:['green'], lat:38.8430, lng:-76.9228},
+  {name:'Takoma', lines:['red'], lat:38.9779, lng:-77.0146},
+  {name:'Tenleytown–AU', lines:['red'], lat:38.9478, lng:-77.0795},
+  {name:'Twinbrook', lines:['red'], lat:39.0628, lng:-77.1223},
+  {name:'Tysons', lines:['silver'], lat:38.9220, lng:-77.2202},
+  {name:'U Street', lines:['green','yellow'], lat:38.9168, lng:-77.0286},
+  {name:'Union Station', lines:['red'], lat:38.8973, lng:-77.0069},
+  {name:'Van Dorn Street', lines:['blue'], lat:38.7954, lng:-77.1287},
+  {name:'Van Ness–UDC', lines:['red'], lat:38.9449, lng:-77.0635},
+  {name:'Vienna', lines:['orange'], lat:38.8777, lng:-77.2714},
+  {name:'Waterfront', lines:['green'], lat:38.8768, lng:-77.0164},
+  {name:'West Falls Church', lines:['orange','silver'], lat:38.8978, lng:-77.1874},
+  {name:'West Hyattsville', lines:['green','yellow'], lat:38.9540, lng:-76.9700},
+  {name:'Wheaton', lines:['red'], lat:39.0452, lng:-77.0521},
+  {name:'White Flint', lines:['red'], lat:39.0488, lng:-77.1132},
+  {name:'Wiehle–Reston East', lines:['silver'], lat:38.9480, lng:-77.3401},
+  {name:'Woodley Park', lines:['red'], lat:38.9249, lng:-77.0535},
+];
+STATIONS.sort((a,b)=>a.name.localeCompare(b.name));
+
+// Populate selects
+function populateSelect(selId, filter=''){
+  const sel = document.getElementById(selId);
+  const current = sel.value;
+  sel.innerHTML = '<option value="">Select station...</option>';
+  const f = filter.toLowerCase();
+  STATIONS.filter(s=>!f||s.name.toLowerCase().includes(f)).forEach(s=>{
+    const lines = s.lines.map(l=>LINES_DATA[l].short).join('/');
+    const opt = new Option(`${s.name} (${lines})`, s.name);
+    sel.add(opt);
+  });
+  if(current) sel.value = current;
+}
+populateSelect('from-station');
+populateSelect('to-station');
+
+function filterFrom(){ populateSelect('from-station', document.getElementById('from-search').value); }
+function filterTo(){ populateSelect('to-station', document.getElementById('to-search').value); }
+
+function swapStations(){
+  const f = document.getElementById('from-station');
+  const t = document.getElementById('to-station');
+  const fs = document.getElementById('from-search');
+  const ts = document.getElementById('to-search');
+  [f.value, t.value] = [t.value, f.value];
+  [fs.value, ts.value] = [ts.value, fs.value];
+}
+
+// ─── TRIP PLANNER ───
+let destStation = null;
+
+function planTrip(){
+  const fromName = document.getElementById('from-station').value;
+  const toName = document.getElementById('to-station').value;
+  const timeOfDay = document.getElementById('travel-time').value;
+  const riderType = document.getElementById('rider-type').value;
+  const err = document.getElementById('err-msg');
+  const panel = document.getElementById('result-panel');
+
+  if(!fromName||!toName){
+    err.style.display='block'; panel.style.display='none'; return;
+  }
+  if(fromName===toName){
+    err.textContent='Origin and destination cannot be the same station.';
+    err.style.display='block'; panel.style.display='none'; return;
+  }
+  err.style.display='none';
+
+  const fromSt = STATIONS.find(s=>s.name===fromName);
+  const toSt = STATIONS.find(s=>s.name===toName);
+  destStation = toSt;
+
+  const sharedLine = fromSt.lines.find(l=>toSt.lines.includes(l));
+  const hasTransfer = !sharedLine;
+  const primaryLine = sharedLine || fromSt.lines[0];
+  const lineData = LINES_DATA[primaryLine];
+
+  // Distance-based stop estimate
+  const dist = Math.sqrt(Math.pow(fromSt.lat-toSt.lat,2)+Math.pow(fromSt.lng-toSt.lng,2));
+  const roughStops = Math.max(2, Math.round(dist * 180));
+  const estMins = roughStops * 2.5 + (hasTransfer ? 6 : 0);
+
+  // Fare calc
+  function calcFare(){
+    if(riderType==='child'||riderType==='student') return 'FREE';
+    const distMiles = dist * 69;
+    let base;
+    if(timeOfDay==='late'){
+      base = distMiles > 6 ? 2.50 : 2.25;
+    } else {
+      base = Math.min(2.25 + distMiles * 0.22, 6.75);
+      base = Math.round(base/0.05)*0.05;
+    }
+    if(riderType==='senior') base = Math.max(base/2, 1.10);
+    return '$'+base.toFixed(2);
+  }
+
+  const fare = calcFare();
+  const fareDetail = riderType==='child' ? 'Children under 5 ride free' :
+    riderType==='student' ? 'DC Kids Ride Free program' :
+    riderType==='senior' ? `Senior/Disability reduced fare (${timeOfDay==='late'?'weekend flat rate':'half of peak fare'})` :
+    timeOfDay==='late' ? 'Late night/weekend flat rate' :
+    timeOfDay==='peak' ? 'Weekday peak fare (distance-based)' :
+    'Weekday off-peak fare (distance-based)';
+
+  // Direction guess
+  const termini = {
+    red:['Shady Grove','Glenmont'],
+    blue:['Franconia–Springfield','Downtown Largo'],
+    orange:['Vienna','New Carrollton'],
+    green:['Branch Avenue','Greenbelt'],
+    yellow:['Huntington','Greenbelt'],
+    silver:['Ashburn','Downtown Largo'],
+  };
+  const dirs = termini[primaryLine]||['—','—'];
+  const direction = toSt.lat > fromSt.lat ? dirs[1] : dirs[0];
+
+  // Update UI
+  const badge = document.getElementById('res-badge');
+  badge.textContent = lineData.short;
+  badge.style.background = lineData.color;
+  badge.style.color = primaryLine==='yellow' ? '#1a1a1a' : '#fff';
+
+  document.getElementById('res-title').textContent = `${fromName} → ${toName}`;
+  document.getElementById('res-stops').textContent = roughStops;
+  document.getElementById('res-mins').textContent = '~'+Math.round(estMins);
+  document.getElementById('res-transfers').textContent = hasTransfer ? '1' : '0';
+  document.getElementById('res-direction').textContent = direction.split('–')[0];
+  document.getElementById('res-fare').textContent = fare;
+  document.getElementById('res-fare-detail').textContent = fareDetail;
+  document.getElementById('map-btn-dest').textContent = toName;
+
+  const tAlert = document.getElementById('transfer-alert');
+  if(hasTransfer){
+    const connectLine = toSt.lines[0];
+    const cData = LINES_DATA[connectLine];
+    tAlert.style.display='block';
+    tAlert.innerHTML=`Transfer needed: take the <strong>${lineData.name}</strong>, then switch to the <strong style="color:${cData.color}">${cData.name}</strong>. Look for colored signs overhead — they match the line color. Transfers within Metro are free.`;
+  } else { tAlert.style.display='none'; }
+
+  // Steps
+  const connectLine = hasTransfer ? toSt.lines[0] : null;
+  const cData = connectLine ? LINES_DATA[connectLine] : null;
+  const steps = [
+    `Walk or travel to <strong>${fromName}</strong> station. Look for the Metro logo (a stylized M) with a colored stripe for the <strong style="color:${lineData.color}">${lineData.name}</strong>.`,
+    `At the mezzanine level, tap your SmarTrip card, phone, or contactless card on the circular reader at the faregate to enter the paid area.`,
+    `Take the escalator or elevator down to the platform. Board the <strong style="color:${lineData.color}">${lineData.name}</strong> in the direction of <strong>${direction}</strong> — the train's electronic sign will display this.`,
+    hasTransfer
+      ? `Ride approximately <strong>${roughStops} stops</strong>. Watch the digital displays inside the train and listen for announcements. At the transfer station, follow the <strong style="color:${cData.color}">${cData.name}</strong> signs.`
+      : `Ride for approximately <strong>${roughStops} stops</strong> — about <strong>${Math.round(estMins)} minutes</strong>. Count the stops using in-car announcements or digital signs inside the train.`,
+    hasTransfer
+      ? `Board the <strong style="color:${cData.color}">${cData.name}</strong>. Continue toward <strong>${toName}</strong>.`
+      : null,
+    `Exit at <strong>${toName}</strong>. Tap your card or phone again at the faregate to exit — this is required. Failure to tap out results in a maximum fare charge on your next entry.`,
+    `You've arrived! Use the button below to open walking directions from the station to your final destination.`,
+  ].filter(Boolean);
+
+  const list = document.getElementById('steps-list');
+  list.innerHTML = steps.map((s,i)=>`
+    <li class="step-row">
+      <div class="step-num">${i+1}</div>
+      <div class="step-text">${s}</div>
+    </li>`).join('');
+
+  panel.style.display='block';
+  panel.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function openInMaps(){
+  if(!destStation) return;
+  const url = `https://www.google.com/maps/dir/?api=1&destination=${destStation.lat},${destStation.lng}&travelmode=walking`;
+  window.open(url,'_blank');
+}
+
+// ─── NEAR ME ───
+function findNearMe(){
+  const res = document.getElementById('near-results');
+  res.style.display='block';
+  res.innerHTML='<p style="color:var(--text-muted);font-size:13px;padding:1rem 0;">Requesting location...</p>';
+  if(!navigator.geolocation){
+    res.innerHTML='<p style="color:#ff8fa3;font-size:13px;padding:1rem 0;">Location not supported by your browser.</p>';
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const lat=pos.coords.latitude, lng=pos.coords.longitude;
+    const nearby = STATIONS.map(s=>{
+      const d=Math.sqrt(Math.pow(s.lat-lat,2)+Math.pow(s.lng-lng,2));
+      const miles=(d*69).toFixed(1);
+      return {...s, distMiles:parseFloat(miles)};
+    }).sort((a,b)=>a.distMiles-b.distMiles).slice(0,5);
+
+    res.innerHTML = `<div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);font-family:'DM Mono',monospace;margin-bottom:10px;">5 Closest Stations to You</div>` +
+    nearby.map(s=>{
+      const dots = s.lines.map(l=>`<div class="mini-dot" style="background:${LINES_DATA[l].color}" title="${LINES_DATA[l].name}"></div>`).join('');
+      const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}&travelmode=walking`;
+      return `<div class="near-station-card">
+        <div>
+          <div class="near-station-name">${s.name}</div>
+          <div class="near-station-dist">${s.distMiles} miles away</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="near-station-lines">${dots}</div>
+          <a href="${mapsUrl}" target="_blank" style="font-size:11px;color:var(--gold);text-decoration:none;font-family:'DM Mono',monospace;letter-spacing:0.04em;white-space:nowrap;">Walk →</a>
+        </div>
+      </div>`;
+    }).join('');
+  }, ()=>{
+    res.innerHTML='<p style="color:#ff8fa3;font-size:13px;padding:1rem 0;">Location access was denied. Please enable location permissions and try again.</p>';
+  });
+}
+
+// ─── LIVE CLOCK ───
+function updateClock(){
+  const now = new Date();
+  const t = now.toLocaleTimeString('en-US',{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const d = now.toLocaleDateString('en-US',{timeZone:'America/New_York',weekday:'short',month:'short',day:'numeric'});
+  const el = document.getElementById('live-clock');
+  const hd = document.getElementById('header-time');
+  if(el) el.textContent = `${d} · ${t} ET`;
+  if(hd) hd.textContent = t + ' ET';
+}
+updateClock(); setInterval(updateClock, 1000);
+
+// ─── TIPS DATA ───
+const TIPS = [
+  {cat:'firsttime', emoji:'💳', title:'Tap In AND Out', body:'You must tap your SmarTrip or card at both the entry and exit faregate. If you only tap in, you get charged the maximum fare ($6.75) next time. No exceptions.'},
+  {cat:'firsttime', emoji:'📍', title:'Read the Train Sign', body:'The electronic sign on the front of every train shows the line color and the final terminal stop. "Toward Shady Grove" means you\'re heading northwest on the Red Line. Always check before boarding.'},
+  {cat:'commuter', emoji:'⏰', title:'Beat the Rush Hours', body:'Arriving at Metro by 7 AM instead of 8:30 AM means dramatically less crowding and shorter platform waits. The difference is real.'},
+  {cat:'tourist', emoji:'🏛️', title:'Smithsonian Is Free', body:'The Smithsonian station (Blue/Orange/Silver) puts you right between the National Mall museums — all of which are free. Best value in the city.'},
+  {cat:'safety', emoji:'🚨', title:'Emergency Intercom', body:'Every Metro car has a yellow emergency intercom at the end of each car. Press it to speak directly with the train operator. Use for genuine emergencies only.'},
+  {cat:'commuter', emoji:'🎧', title:'Get the Right App', body:'The MetroPulse app (free from WMATA) shows live train arrivals at every platform. Never guess when the next train comes again.'},
+  {cat:'firsttime', emoji:'🚶', title:'Stand Right, Walk Left', body:'This is the unofficial law of the DC escalator. Stand on the RIGHT. Walk on the LEFT. Locals will silently (and sometimes not so silently) judge you if you break this rule.'},
+  {cat:'tourist', emoji:'✈️', title:'Airport Connections', body:'Reagan National (DCA) is on the Blue/Yellow lines — 15 min to downtown. Dulles (IAD) is served by the Silver Line — about 45–60 min to downtown. No separate airport ticket needed.'},
+  {cat:'commuter', emoji:'🚲', title:'Bike to the Station', body:'Capital Bikeshare docks are at most Metro stations. Combine a short bike ride with Metro for the last mile — no parking needed, cheaper than Uber.'},
+  {cat:'safety', emoji:'🔒', title:'Watch Your Belongings', body:'Metro is generally safe, but crowded trains and busy stations are prime pickpocket spots. Keep your bag in front of you on crowded trains and be aware at busy transfer stations like Metro Center.'},
+  {cat:'firsttime', emoji:'📶', title:'Free WiFi Everywhere', body:'All 98 Metro stations have free Wi-Fi. Tunnels also have cell service on all major carriers. You will not lose signal between stations underground.'},
+  {cat:'tourist', emoji:'🗺️', title:'Free Transfer at Farragut', body:'Need to switch between the Red Line and the Blue/Orange/Silver lines? Exit Farragut North, walk 1 block to Farragut West, and re-enter. No extra fare charged — this is a huge time-saver.'},
+  {cat:'commuter', emoji:'🅿️', title:'Parking at End Stations', body:'Many end-of-line stations (Shady Grove, Vienna, Branch Avenue, etc.) have parking garages. Often cheaper than downtown parking and you take the train in. Pay via SmarTrip.'},
+  {cat:'safety', emoji:'🆘', title:'Miss the Last Train?', body:'If you miss the last train, check Metrobus routes — some run all night. Otherwise, rideshares from station exits are your best option. Plan your night around Metro\'s closing times.'},
+  {cat:'firsttime', emoji:'👨‍💼', title:'The Station Manager', body:'Every Metro station has a Station Manager in a glass booth near the faregates. They can help you with everything — getting on the system, adding value, and finding your way. Don\'t be shy.'},
+  {cat:'tourist', emoji:'🌸', title:'Cherry Blossom Season', body:'Spring Metro is magical — and packed. During Cherry Blossom season (late March–April), Smithsonian station gets extremely crowded on weekends. Come early morning or use Federal Triangle instead.'},
+  {cat:'commuter', emoji:'💼', title:'SmartBenefits (Pre-Tax)', body:'If you work in DC, your employer may offer pre-tax SmartBenefits up to $315/month for transit. This can save you hundreds per year. Ask your HR department.'},
+  {cat:'safety', emoji:'🟡', title:'Platform Edge Warning', body:'The yellow bumpy tiles at the platform edge are the danger zone. Stay behind them. When the train arrives, take a half-step back — the rush of air from the train can be surprisingly strong.'},
+];
+
+const ALL_TIPS = [...TIPS];
+
+function renderTips(filter='all'){
+  const filtered = filter==='all' ? ALL_TIPS : ALL_TIPS.filter(t=>t.cat===filter);
+  const container = document.getElementById('tips-masonry');
+  container.innerHTML = filtered.map(t=>`
+    <div class="tip-card">
+      <div class="tip-category">${t.cat === 'firsttime' ? 'First Timer' : t.cat.charAt(0).toUpperCase()+t.cat.slice(1)}</div>
+      <span class="tip-emoji">${t.emoji}</span>
+      <div class="tip-title">${t.title}</div>
+      <div class="tip-body">${t.body}</div>
+    </div>`).join('');
+}
+renderTips();
+
+function switchTab(cat){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  renderTips(cat);
+}
+
+// ─── SCROLL REVEAL ───
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
